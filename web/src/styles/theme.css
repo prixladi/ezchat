@@ -1,0 +1,14 @@
+@tailwind base;
+
+@layer base {
+    .theme-switcher {
+        @apply h-12;
+        @apply w-12;
+        @apply text-4xl;
+        @apply float-right;
+    }
+    .theme-switcher img {
+        @apply dark:content-[url('/assets/moon.svg')];
+        @apply content-[url('/assets/sun.svg')];
+    }
+}

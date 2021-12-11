@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('./form.css');
+@import url('./theme.css');
+@import url('./links.css');
+
+@layer base {
+    h1 {
+        @apply text-4xl font-extrabold leading-tight;
+    }
+    body {
+        @apply transition-all ease-in duration-300;
+        @apply dark:bg-[url('/assets/bg-dark.png')];
+        @apply bg-[url('/assets/bg-light.png')];
+        @apply bg-no-repeat;
+        @apply bg-cover;
+        @apply bg-center;
+    }
+    .centered-content {
+        @apply flex flex-col h-screen gap-24 justify-center items-center m-auto max-w-md px-10;
+    }
+}

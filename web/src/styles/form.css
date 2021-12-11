@@ -1,0 +1,14 @@
+@tailwind base;
+
+@layer base {
+    .main-input {
+        @apply appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none font-bold;
+        @apply dark:text-gray-300
+    }
+    .main-input-wrapper {
+        @apply flex w-full border-b border-teal-500 py-2;
+    }
+    button.main-input-button {
+        @apply text-gray-700 rounded-full bg-teal-500 py-1 px-2 font-bold;
+    }
+}
