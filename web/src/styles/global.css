@@ -10,6 +10,9 @@
     h1 {
         @apply text-4xl font-extrabold leading-tight;
     }
+    p {
+        @apply text-lg;
+    }
     body {
         @apply transition-all ease-in duration-300;
         @apply dark:bg-[url('/assets/bg-dark.png')];
@@ -17,8 +20,9 @@
         @apply bg-no-repeat;
         @apply bg-cover;
         @apply bg-center;
+        @apply bg-fixed;
     }
     .centered-content {
-        @apply flex flex-col h-screen gap-24 justify-center items-center m-auto max-w-md px-10;
+        @apply flex flex-col h-screen gap-20 justify-center items-center m-auto max-w-md px-10;
     }
 }

@@ -9,7 +9,7 @@ const ThemeSwitch = () => {
       className="theme-switcher"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
-      <img />
+      <img alt="theme switch" />
     </button>
   );
 };
