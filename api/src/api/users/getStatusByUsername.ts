@@ -3,9 +3,12 @@ import userService from '../../services/user';
 import { StatusCodes } from 'http-status-codes';
 import { getRepository } from 'typeorm';
 import { User } from '../../entity/User';
-import { GetStatusByUserNameParams } from '@api-models';
+import { GetStatusByUsernameParams, UsernameStatusResponseDto } from '@api-models';
 
-export default async (req: Request<GetStatusByUserNameParams>, res: Response) => {
+export default async (
+  req: Request<GetStatusByUsernameParams>,
+  res: Response<UsernameStatusResponseDto>,
+) => {
   const valid = userService.validateUsername(req.params.username);
   const normalizedUsername = userService.normalizeUsernameOrEmail(req.params.username);
 
@@ -15,7 +18,8 @@ export default async (req: Request<GetStatusByUserNameParams>, res: Response) =>
   const resp = {
     used: count > 0,
     valid,
-  };
+    username: req.params.username,
+  } as UsernameStatusResponseDto;
 
   res.status(StatusCodes.OK).send(resp);
 };

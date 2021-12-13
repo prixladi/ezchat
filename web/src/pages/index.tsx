@@ -1,121 +1,37 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
-import OneInputForm from '../components/OneInputForm';
-import ThemeSwitch from '../components/ThemeSwitch';
 import Collapse from '../components/Collapse';
+import Username from '../subpages/index/username';
+import PasswordLogin from '../subpages/index/passwordLogin';
+import NewPassword from '../subpages/index/newPassword';
+import Email from '../subpages/index/email';
+import Head from 'next/head';
+import { appName } from '../constants';
 
 const Home: NextPage = () => {
   const [state, setState] = useState('0');
 
+  <Head>
+    <title>{appName}</title>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+  </Head>;
+
   return (
     <>
       <Collapse in={state == '0'}>
-        <div className="centered-content">
-          <ThemeSwitch />
-          <div className="flex flex-col gap-4 text-center">
-            <h1>EzChat</h1>
-            <p>Choose new username or use your already existing account.</p>
-          </div>
-          <div className="flex flex-col gap-4 text-center">
-            <OneInputForm
-              isOpen={state == '0'}
-              type="text"
-              placeholder="Username"
-              aria-label="username"
-              rightButtonContent="GO!"
-              onSubmit={async () => {
-                setState('1');
-              }}
-            />
-            <p>
-              Or start <a className="link">anonymous</a>
-            </p>
-          </div>
-        </div>
+        <Username isOpen={state == '0'} setState={setState}></Username>
       </Collapse>
 
       <Collapse in={state == '1'}>
-        <div className="centered-content">
-          <ThemeSwitch />
-          <div className="flex flex-col gap-4 text-center">
-            <h1>EzChat</h1>
-            <p>Enter password for user &apos;jack&apos;.</p>
-          </div>
-          <div className="flex flex-col gap-4 text-center">
-            <OneInputForm
-              isOpen={state == '1'}
-              type="password"
-              placeholder="**************"
-              aria-label="password"
-              rightButtonContent="GO!"
-              onSubmit={async () => {
-                setState('2');
-              }}
-            />
-            <p>
-              Or pick{' '}
-              <a className="link" onClick={() => setState('0')}>
-                different username
-              </a>
-            </p>
-          </div>
-        </div>
+        <PasswordLogin isOpen={state == '1'} setState={setState}></PasswordLogin>
       </Collapse>
 
       <Collapse in={state == '2'}>
-        <div className="centered-content">
-          <ThemeSwitch />
-          <div className="flex flex-col gap-4 text-center">
-            <h1>EzChat</h1>
-            <p>Choose new password for user &apos;jack&apos;.</p>
-          </div>
-          <div className="flex flex-col gap-4 text-center">
-            <OneInputForm
-              isOpen={state == '2'}
-              type="password"
-              placeholder="**************"
-              aria-label="password"
-              rightButtonContent="GO!"
-              onSubmit={async () => {
-                setState('3');
-              }}
-            />
-            <p>
-              Or pick{' '}
-              <a className="link" onClick={() => setState('0')}>
-                different username
-              </a>
-            </p>
-          </div>
-        </div>
+        <NewPassword isOpen={state == '2'} setState={setState}></NewPassword>
       </Collapse>
 
       <Collapse in={state == '3'}>
-        <div className="centered-content">
-          <ThemeSwitch />
-          <div className="flex flex-col gap-4 text-center">
-            <h1>EzChat</h1>
-            <p>Enter email for possible password recovery. This step is optional.</p>
-          </div>
-          <div className="flex flex-col gap-4 text-center">
-            <OneInputForm
-              isOpen={state == '3'}
-              type="email"
-              placeholder="user@email.com"
-              aria-label="password"
-              rightButtonContent="GO!"
-              onSubmit={async () => {
-                setState('0');
-              }}
-            />
-            <p>
-              Or{' '}
-              <a className="link" onClick={() => setState('0')}>
-                skip this step
-              </a>
-            </p>
-          </div>
-        </div>
+        <Email isOpen={state == '3'} setState={setState}></Email>
       </Collapse>
     </>
   );

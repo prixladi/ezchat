@@ -1,4 +1,4 @@
-export type GetStatusByUserNameParams = {
+export type GetStatusByUsernameParams = {
   username: string;
 };
 
@@ -15,4 +15,10 @@ export type AnonymousUserCreatedResponseDto = {
 
 export type UserCreatedResponseDto = {
   userId: string;
+};
+
+export type UsernameStatusResponseDto = {
+  username: string;
+  used: boolean;
+  valid: boolean;
 };

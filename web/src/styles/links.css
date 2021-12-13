@@ -2,7 +2,7 @@
 
 @layer base {
     .link {
-        @apply text-red-500 font-bold;
+        @apply text-teal-500 font-bold;
     }
     .link:hover {
         @apply cursor-pointer underline;

@@ -4,6 +4,7 @@ import { createConnection as createDbConnection } from 'typeorm';
 import { createConnection as createRedisConnection } from './redis';
 import api from './api';
 import errorMiddleware from './api/middleware/errorMiddleware';
+import cors from 'cors';
 
 const main = async () => {
   await createDbConnection(config.database);
@@ -11,6 +12,7 @@ const main = async () => {
 
   const app = express();
   app.use(express.json());
+  app.use(cors());
   app.use(api);
   app.use(errorMiddleware);
 
