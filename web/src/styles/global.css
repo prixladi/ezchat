@@ -23,9 +23,15 @@
         @apply bg-fixed;
     }
     .centered-content-md {
-        @apply gap-8 flex flex-col h-screen md:gap-20 justify-center items-center m-auto max-w-md px-10 py-5;
+        @apply flex flex-col h-screen gap-8 md:gap-12 lg:gap-20 justify-center items-center m-auto max-w-md px-10 py-5;
     }
     .centered-content-block {
         @apply flex flex-col gap-4 text-center w-full;
+    }    
+    .spinner-wrapper {
+        @apply m-auto w-36 h-36 border-l-2 border-teal-500 rounded-full animate-spin mt-4 md:mt-8  lg:mt-16;
+    }
+    .spinner {
+        @apply flex items-center justify-center;
     }
 }

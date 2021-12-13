@@ -1,25 +1,35 @@
-import * as R from 'ramda';
+import { useState } from 'react';
 
 type Props = {
-  content?: React.ReactNode | string;
+  content: React.ReactNode | string;
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>;
 };
 
 const InputButton: React.FC<Props> = ({ content, onClick }) => {
-  if (R.isNil(content)) {
-    return null;
-  }
+  const [submitting, setSubmitting] = useState(false);
 
   return (
     <button
       type="submit"
-      className="main-input-button"
+      disabled={submitting}
+      className="form-main-input-button"
       onClick={async (e) => {
-        e.preventDefault();
-        await onClick(e);
+        setSubmitting(true);
+        try {
+          e.preventDefault();
+          await onClick(e);
+        } finally {
+          setSubmitting(false);
+        }
       }}
     >
-      {content}
+      {submitting ? (
+        <div className="form-spinner-wrapper">
+          <div className="form-spinner" />
+        </div>
+      ) : (
+        content
+      )}
     </button>
   );
 };

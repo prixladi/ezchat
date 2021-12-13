@@ -13,7 +13,7 @@ export default {
       nodeEnv === 'development' || env.API_INCLUDE_ERROR_IN_RESPONSE?.toLowerCase() === 'true',
   },
   app: {
-    port: R.defaultTo(parseInt(env.APP_PORT), 8000),
+    port: R.defaultTo(8000, parseInt(env.APP_PORT)),
   },
   database: ormConfig as PostgresConnectionOptions,
   redis: {

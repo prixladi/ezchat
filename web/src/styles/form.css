@@ -1,24 +1,30 @@
 @tailwind base;
 
 @layer base {
-    .transition-form {
+    .form-transition {
         @apply transition-all ease-in duration-500;
     }
 
-    .main-input {
+    .form-main-input {
         @apply appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none font-bold;
         @apply dark:text-gray-300
     }
-    .main-input-wrapper {
-        @apply flex w-full border-b border-teal-500 py-2 transition-form;
+    .form-main-input-wrapper {
+        @apply flex w-full border-b border-teal-500 py-2 form-transition;
     }
-    .main-input-wrapper-error {
-        @apply border-red-700 transition-form;
+    .form-main-input-wrapper-error {
+        @apply border-red-700 form-transition;
     }
-    .main-input-error {
-        @apply text-red-700 text-sm py-1 px-2 leading-tight font-extrabold transition-form;
+    .form-main-input-error {
+        @apply text-red-700 text-sm py-1 px-2 leading-tight font-extrabold form-transition;
     }
-    button.main-input-button {
+    button > .form-spinner-wrapper {
+        @apply w-4 h-4 border-l-2 border-gray-700 rounded-full animate-spin;
+    }
+    button > .form-spinner {
+        @apply flex items-center justify-center;
+    }
+    button.form-main-input-button {
         @apply text-gray-700 rounded-full bg-teal-500 py-1 px-2 font-bold;
     }
 }

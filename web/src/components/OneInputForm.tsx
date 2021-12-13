@@ -1,27 +1,29 @@
-import { HTMLInputTypeAttribute, useCallback, useEffect, useRef, useState } from 'react';
-import * as R from 'ramda';
+import {
+  DetailedHTMLProps,
+  InputHTMLAttributes,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import InputButton from './InputButton';
 
 type FormUtils = {
   setError: (str: string) => void;
 };
 
-type Props = {
-  placeholder?: string;
-  type?: HTMLInputTypeAttribute;
-  autoComplete?: string;
+type Props = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
   error?: string;
   errorDismissTimeout?: number;
-  'aria-label'?: string;
-  rightButtonContent?: React.ReactNode | string;
+  rightButtonContent: React.ReactNode | string;
   footerContent?: React.ReactNode | string;
-  onSubmit: (str: string, utils: FormUtils) => Promise<void>;
+  handleSubmit: (str: string, utils: FormUtils) => Promise<void>;
   isOpen: boolean;
 };
 
 const OneInputForm = ({
   rightButtonContent,
-  onSubmit,
+  handleSubmit,
   isOpen,
   error: _error,
   errorDismissTimeout,
@@ -49,7 +51,7 @@ const OneInputForm = ({
   }, [ref, isOpen, props.type]);
 
   const wrapperClass =
-    'main-input-wrapper' + (error && showError ? ' main-input-wrapper-error' : '');
+    'form-main-input-wrapper' + (error && showError ? ' form-main-input-wrapper-error' : '');
 
   return (
     <div className="centered-content-block">
@@ -59,20 +61,26 @@ const OneInputForm = ({
             <input
               ref={(input) => (ref.current.input = input)}
               value={value}
-              className="main-input"
+              className="form-main-input"
               {...props}
               onChange={(e) => {
                 setShowError(false);
-
                 setValue(e.target.value);
               }}
             />
             <InputButton
               content={rightButtonContent}
-              onClick={async () => await onSubmit(value, { setError: setErrorCallback })}
+              onClick={async () => {
+                setShowError(false);
+                await handleSubmit(value, { setError: setErrorCallback });
+              }}
             />
           </div>
-          <p className={error && showError ? 'main-input-error' : 'main-input-error opacity-0'}>
+          <p
+            className={
+              error && showError ? 'form-main-input-error' : 'form-main-input-error opacity-0'
+            }
+          >
             {error || <span className="invisible">dummy</span>}
           </p>
         </div>

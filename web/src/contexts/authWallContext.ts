@@ -1,6 +1,5 @@
 import * as R from 'ramda';
-import React, { useContext, useReducer } from 'react';
-import './App.css';
+import React, { Context, Dispatch, useContext, useReducer } from 'react';
 
 const enum AuthWallProgress {
   USERNAME_SELECTION,
@@ -13,12 +12,12 @@ const enum AuthWallProgress {
 }
 
 const enum AuthWallActionType {
-  SELECT,
+  FILL,
   AUTH,
 }
 
 type SelectAction = {
-  type: AuthWallActionType.SELECT;
+  type: AuthWallActionType.FILL;
   progress: AuthWallProgress;
   payload: {
     username?: string | null;
@@ -33,26 +32,34 @@ type AuthAction = {
 
 type AuthWallAction = SelectAction | AuthAction;
 
-type AuthWallContext = {
+type AuthWallState = {
   username?: string | null;
   password?: string | null;
   email?: string | null;
   progress: AuthWallProgress;
 };
 
+type AuthWallContext = {
+  state: AuthWallState;
+  dispatch: Dispatch<AuthWallAction>;
+};
+
 const initialState = {
   progress: AuthWallProgress.USERNAME_SELECTION,
 };
 
-const AuthWallContext = React.createContext<AuthWallContext>(initialState);
+const AuthWallContext = React.createContext<AuthWallContext>({
+  state: initialState,
+  dispatch: () => null,
+});
 
-const reducer = (state: AuthWallContext, action: AuthWallAction): AuthWallContext => {
+const reducer = (state: AuthWallState, action: AuthWallAction): AuthWallState => {
   switch (action.type) {
-    case AuthWallActionType.SELECT:
+    case AuthWallActionType.FILL:
       return {
         ...state,
         ...action.payload,
-        progress: R.defaultTo(action.progress, state.progress),
+        progress: R.defaultTo(state.progress, action.progress),
       };
     case AuthWallActionType.AUTH:
       return {
@@ -63,15 +70,22 @@ const reducer = (state: AuthWallContext, action: AuthWallAction): AuthWallContex
   }
 };
 
-const useAuthWallContextCreator = () => {
-  const [dispatch] = useReducer(reducer, initialState);
+const usernameSelectedAction = (username: string) => {};
 
-  return [AuthWallContext, dispatch];
+const useAuthWallContextCreator = (): [
+  Context<AuthWallContext>,
+  AuthWallState,
+  Dispatch<AuthWallAction>,
+] => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return [AuthWallContext, state, dispatch];
 };
 
 const useAuthWallContext = () => {
   return useContext(AuthWallContext);
 };
 
-export type { AuthWallActionType, AuthWallProgress, AuthWallAction };
+export { AuthWallActionType, AuthWallProgress };
+export type { AuthWallAction };
 export { useAuthWallContextCreator, useAuthWallContext };

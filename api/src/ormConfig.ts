@@ -1,13 +1,13 @@
-import R from 'ramda'
+import R from 'ramda';
 
 export = {
   type: 'postgres',
-  username: R.defaultTo(process.env.DB_USERNAME, 'admin'),
-  password: R.defaultTo(process.env.DB_PASSWORD, 'secret'),
-  database: R.defaultTo(process.env.DB_NAME, 'ezchat'),
-  host: R.defaultTo(process.env.DB_HOST, 'localhost'),
-  port: R.defaultTo(parseInt(process.env.DB_POSRT), 5432),
-  logging: R.defaultTo(process.env.DB_LOGGING_ENABLED, false),
+  username: R.defaultTo('admin', process.env.DB_USERNAME),
+  password: R.defaultTo('secret', process.env.DB_PASSWORD),
+  database: R.defaultTo('ezchat', process.env.DB_NAME),
+  host: R.defaultTo('localhost', process.env.DB_HOST),
+  port: R.defaultTo(5432, parseInt(process.env.DB_POSRT)),
+  logging: R.defaultTo(false, process.env.DB_LOGGING_ENABLED),
   synchronize: false,
   entities: ['src/entity/**/*.ts'],
   migrations: ['src/migration/**/*.ts'],
@@ -16,5 +16,5 @@ export = {
     entitiesDir: 'src/entity',
     migrationsDir: 'src/migration',
     subscribersDir: 'src/subscriber',
-  }
+  },
 };
