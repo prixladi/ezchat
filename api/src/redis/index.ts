@@ -1,12 +1,13 @@
 import Redis, { Redis as IRedis, RedisOptions } from 'ioredis';
 import R from 'ramda';
+import { logger } from '../logging';
 
 let redis: IRedis | undefined;
 
 const createConnection = (config: RedisOptions): IRedis => {
   redis = new Redis(config);
   redis.connect(() => {
-    console.log(`Connected to redis running at '${config.host}:${config.port}'`);
+    logger.info(`Connected to redis running at '${config.host}:${config.port}'`);
   });
 
   return redis;

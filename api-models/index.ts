@@ -2,10 +2,26 @@ export type GetStatusByUsernameParams = {
   username: string;
 };
 
+export type CurrentUserResponseDto = {
+  id: string;
+  username: string;
+  email: string;
+  isAnonymous: boolean;
+};
+
+export type PasswordLoginRequestDto = {
+  username: string;
+  password: string;
+};
+
+export type TokenLoginRequestDto = {
+  token: string;
+};
+
 export type CreateUserRequestDto = {
   username: string;
   password: string;
-  email: string;
+  email?: string;
 };
 
 export type AnonymousUserCreatedResponseDto = {

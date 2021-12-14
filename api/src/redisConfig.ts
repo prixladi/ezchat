@@ -8,4 +8,6 @@ export default {
   password: R.defaultTo(null, env.REDIS_PASSWORD),
   db: R.defaultTo(0, env.REDIS_DB),
   reconnectOnError: () => true,
+  maxRetriesPerRequest: 2,
+  lazyConnect: true
 } as RedisOptions;

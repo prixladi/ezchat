@@ -2,10 +2,7 @@
 
 @layer base {
     .theme-switcher {
-        @apply h-12;
-        @apply w-12;
-        @apply text-4xl;
-        @apply float-right;
+        @apply h-12 w-12 text-4xl float-right;
     }
     .theme-switcher img {
         @apply dark:content-[url('/assets/moon.svg')];
