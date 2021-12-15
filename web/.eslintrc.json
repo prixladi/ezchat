@@ -6,7 +6,7 @@
     "eslint-config-prettier"
   ],
   "parserOptions": {
-      "project": "./tsconfig.json"
+    "project": "./tsconfig.json"
   },
   "settings": {
     "import/core-modules": ["@api-models"],
@@ -19,24 +19,30 @@
   "rules": {
     "no-undef": 0,
     "no-console": 0,
-    "react/require-default-props": 0, 
+    "react/require-default-props": 0,
     "react/jsx-props-no-spreading": 0,
-    "react/function-component-definition": [ 2,
+    "react/function-component-definition": [
+      2,
       {
         "namedComponents": "arrow-function",
         "unnamedComponents": "arrow-function"
       }
     ],
-    "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
+    "react/jsx-filename-extension": [
+      2,
+      {
+        "extensions": [".jsx", ".tsx"]
+      }
+    ],
     "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          "js": "never",
-          "jsx": "never",
-          "ts": "never",
-          "tsx": "never"
-        }
-     ]
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
   }
 }

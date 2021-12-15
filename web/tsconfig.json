@@ -20,11 +20,11 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-       "@api-models/*": ["../api-models/*"],
-       "@api-models": ["../api-models"],
-       "@lib": ["./src/lib"],
-       "@lib/*": ["./src/lib/*"]
-     }
+      "@api-models/*": ["../api-models/*"],
+      "@api-models": ["../api-models"],
+      "@lib": ["./src/lib"],
+      "@lib/*": ["./src/lib/*"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

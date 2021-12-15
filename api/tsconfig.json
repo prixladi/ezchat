@@ -21,14 +21,10 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-       "@api-models/*": ["../api-models/*"],
-       "@api-models": ["../api-models"]
-     }
+      "@api-models/*": ["../api-models/*"],
+      "@api-models": ["../api-models"]
+    }
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }
