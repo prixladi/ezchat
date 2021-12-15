@@ -9,16 +9,18 @@ const App: NextPage = () => {
 
   if (data) {
     return (
-      <button
-        type="button"
-        className="flex flex-col"
-        onClick={async () => {
-          await logout();
-        }}
-      >
+      <div className="flex flex-col">
+        <button
+          type="button"
+          onClick={async () => {
+            await logout();
+          }}
+        >
+          LOGOUT
+        </button>
+        
         <code>{JSON.stringify(data)}</code>
-        <button type="button">LOGOUT</button>
-      </button>
+      </div>
     );
   }
 

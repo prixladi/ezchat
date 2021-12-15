@@ -55,15 +55,14 @@ const OneInputForm = ({
     }
   }, [ref, isOpen, props.type]);
 
-  const wrapperClass = `form-main-input-wrapper${
-    error && showError ? ' form-main-input-wrapper-error' : ''
-  }`;
+  const wrapperClass = 'form-main-input-wrapper';
+  const errorWrapperClass = 'form-main-input-wrapper form-main-input-wrapper-error';
 
   return (
     <div className="centered-content-block">
       <form>
         <div className="flex flex-col">
-          <div className={wrapperClass}>
+          <div className={error && showError ? errorWrapperClass : wrapperClass}>
             <input
               ref={(input) => {
                 ref.current.input = input;

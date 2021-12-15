@@ -1,8 +1,7 @@
 module.exports = {
   mode: 'jit',
   darkMode: 'class',
-  content: ['./src/**/*.tsx'],
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './pages/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       screens: {
