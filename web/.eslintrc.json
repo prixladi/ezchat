@@ -3,5 +3,7 @@
     "next/core-web-vitals",
     "eslint-config-prettier"
   ],
-  "rules": {}
+  "rules": {
+    "no-anonymous-default-export": 0
+  }
 }

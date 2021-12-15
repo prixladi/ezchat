@@ -1,36 +1,28 @@
-import type { NextPage } from 'next'
-import OneInputForm, { FormUtils } from '../../components/OneInputForm'
-import ThemeSwitch from '../../components/ThemeSwitch'
-import { useQueryClient } from 'react-query'
-import api from '../../api'
-import { appName, maxUserNameLength, minUserNameLength, validUsernameRegex } from '../../constants'
 import * as R from 'ramda'
+import { useMemo, useState } from 'react'
+import { useQueryClient } from 'react-query'
+import api from '@lib/api'
+import { FormUtils } from '@lib/components/OneInputForm'
+import { maxUserNameLength, minUserNameLength, validUsernameRegex } from '../../../../lib/constants'
 import {
   AuthWallActionType,
   AuthWallProgress,
   useAuthWallContext
-} from '../../contexts/authWallContext'
-import { useState } from 'react'
+} from '@lib/contexts/authWallContext'
 
-const Username: NextPage = () => {
+const useUsernamePage = () => {
   const client = useQueryClient()
-  const { state, dispatch } = useAuthWallContext()
+  const context = useAuthWallContext()
   const [isLoading, setIsLoading] = useState(false)
+  const isCurrent = useMemo(
+    () => context.state.progress === AuthWallProgress.USERNAME_SELECTION,
+    [context.state.progress]
+  )
 
   const dispatchPasswordSelection = (username: string) => {
-    dispatch({
-      type: AuthWallActionType.FILL,
+    context.dispatch({
+      type: AuthWallActionType.MOVE,
       progress: AuthWallProgress.PASSWORD_SELECTION,
-      payload: {
-        username
-      }
-    })
-  }
-
-  const dispatchNewPasswordSelection = (username: string) => {
-    dispatch({
-      type: AuthWallActionType.FILL,
-      progress: AuthWallProgress.NEW_PASSWORD_SELECTION,
       payload: {
         username
       }
@@ -49,7 +41,7 @@ const Username: NextPage = () => {
         mutationFn: async () => await api.createUserAnonymous()
       })
 
-      dispatch({
+      context.dispatch({
         type: AuthWallActionType.AUTH
       })
     } catch (err) {
@@ -60,7 +52,21 @@ const Username: NextPage = () => {
     }
   }
 
-  const onSubmit = async (username: string, { setError }: FormUtils) => {
+  const dispatchNewPasswordSelection = (username: string) => {
+    context.dispatch({
+      type: AuthWallActionType.MOVE,
+      progress: AuthWallProgress.NEW_PASSWORD_SELECTION,
+      payload: {
+        username
+      }
+    })
+  }
+
+  const check = async (username: string, { setError }: FormUtils) => {
+    if (isLoading) {
+      return
+    }
+
     if (
       R.isNil(username) ||
       R.isEmpty(username) ||
@@ -99,35 +105,7 @@ const Username: NextPage = () => {
     }
   }
 
-  return (
-    <>
-      <div className="centered-content-md">
-        <ThemeSwitch />
-        <div className="centered-content-block">
-          <h1>{appName} | Username</h1>
-          <p>Choose new username or use your already existing account.</p>
-        </div>
-        <OneInputForm
-          isOpen={state.progress === AuthWallProgress.USERNAME_SELECTION}
-          type="text"
-          autoComplete="username"
-          placeholder="Username"
-          aria-label="username"
-          rightButtonContent="GO!"
-          isLoading={isLoading}
-          handleSubmit={onSubmit}
-          footerContent={(utils) => (
-            <p>
-              Or start{' '}
-              <a onClick={() => anonymousLogin(utils)} className="link">
-                anonymous
-              </a>
-            </p>
-          )}
-        />
-      </div>
-    </>
-  )
+  return { context, check, anonymousLogin, isLoading, isCurrent }
 }
 
-export default Username
+export default useUsernamePage

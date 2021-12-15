@@ -1,9 +1,8 @@
 import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'next-themes'
-import '../styles/global.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import { useAuthWallContextCreator } from '../contexts/authWallContext'
+import { useAuthWallContextCreator } from '@lib/contexts/authWallContext'
 
 const queryClient = new QueryClient()
 

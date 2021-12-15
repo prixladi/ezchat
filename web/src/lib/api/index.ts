@@ -8,7 +8,7 @@ import logout from './logout'
 import passwordLogin from './passwordLogin'
 import tokenLogin from './tokenLogin'
 
-export default {
+const api = {
   getStatusByUsername,
   getStatusByEmail,
   createUser,
@@ -19,3 +19,5 @@ export default {
   logout,
   checkSession
 }
+
+export default api

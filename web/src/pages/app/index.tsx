@@ -1,7 +1,7 @@
+import api from '@lib/api'
 import type { NextPage } from 'next'
 import { useQuery } from 'react-query'
-import api from '../../api'
-import useLogout from '../../hooks/useLogout'
+import useLogout from './lib/hooks/useLogout'
 
 const App: NextPage = () => {
   const { data } = useQuery(api.getCurrentUser.cacheKey, api.getCurrentUser)

@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router'
 import { useMutation } from 'react-query'
-import api from '../api'
-import { routes } from '../constants'
-import { AuthWallActionType, useAuthWallContext } from '../contexts/authWallContext'
+import api from '@lib/api'
+import { routes } from '../../../../lib/constants'
+import { AuthWallActionType, useAuthWallContext } from '@lib/contexts/authWallContext'
 
-export default () => {
+const useLogout = () => {
   const { dispatch } = useAuthWallContext()
   const router = useRouter()
   const { mutateAsync } = useMutation(api.logout)
@@ -23,3 +23,5 @@ export default () => {
     router.push(routes.login)
   }
 }
+
+export default useLogout

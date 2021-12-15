@@ -1,5 +1,7 @@
 import client from './base'
 
-export default async (): Promise<void> => {
+const logout = async (): Promise<void> => {
   await client.post('api/v1/auth/logout')
 }
+
+export default logout

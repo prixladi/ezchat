@@ -1,21 +1,23 @@
-import type { NextPage } from 'next'
 import * as R from 'ramda'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useQueryClient } from 'react-query'
-import api from '../../api'
-import OneInputForm, { FormUtils } from '../../components/OneInputForm'
-import ThemeSwitch from '../../components/ThemeSwitch'
-import { appName, validEmailRegex } from '../../constants'
+import api from '@lib/api'
+import { FormUtils } from '@lib/components/OneInputForm'
+import { validEmailRegex } from '../../../../lib/constants'
 import {
   AuthWallActionType,
   AuthWallProgress,
   useAuthWallContext
-} from '../../contexts/authWallContext'
+} from '@lib/contexts/authWallContext'
 
-const Email: NextPage = () => {
+const useEmailPage = () => {
   const client = useQueryClient()
-  const { state, dispatch } = useAuthWallContext()
+  const context = useAuthWallContext()
   const [isLoading, setIsLoading] = useState(false)
+  const isCurrent = useMemo(
+    () => context.state.progress === AuthWallProgress.EMAIL_SELECTION,
+    [context.state.progress]
+  )
 
   const register = async ({ setError, hideError }: FormUtils, email?: string) => {
     if (isLoading) {
@@ -28,13 +30,13 @@ const Email: NextPage = () => {
       await client.executeMutation({
         mutationFn: async () =>
           await api.createUser({
-            username: state.username!,
-            password: state.password!,
+            username: context.state.payload?.username!,
+            password: context.state.payload?.password!,
             email: email
           })
       })
 
-      dispatch({
+      context.dispatch({
         type: AuthWallActionType.AUTH
       })
     } catch (err) {
@@ -45,7 +47,7 @@ const Email: NextPage = () => {
     }
   }
 
-  const onSubmit = async (email: string, utils: FormUtils) => {
+  const registerWithEmail = async (email: string, utils: FormUtils) => {
     if (R.isNil(email) || R.isEmpty(email) || !validEmailRegex.test(email)) {
       utils.setError('Value must be an valid email (eg. user@gmail.com).')
       return
@@ -72,35 +74,11 @@ const Email: NextPage = () => {
     }
   }
 
-  return (
-    <div className="centered-content-md">
-      <ThemeSwitch />
-      <div className="centered-content-block">
-        <h1>{appName} | Email</h1>
-        <p>
-          Enter email for user <b>&apos;{state.username}&apos;</b> for possible password recovery.
-          This step is optional.
-        </p>
-      </div>
-      <OneInputForm
-        isOpen={state.progress === AuthWallProgress.EMAIL_SELECTION}
-        type="email"
-        autoComplete="email"
-        placeholder="user@email.com"
-        aria-label="password"
-        rightButtonContent="GO!"
-        handleSubmit={onSubmit}
-        footerContent={(utils) => (
-          <p>
-            Or{' '}
-            <a className="link" onClick={() => register(utils)}>
-              skip this step
-            </a>
-          </p>
-        )}
-      />
-    </div>
-  )
+  const registerWithoutEmail = async (utils: FormUtils) => {
+    await register(utils)
+  }
+
+  return { context, registerWithoutEmail, registerWithEmail, isLoading, isCurrent }
 }
 
-export default Email
+export default useEmailPage

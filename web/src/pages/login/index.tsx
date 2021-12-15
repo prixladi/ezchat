@@ -1,57 +1,22 @@
 import type { NextPage } from 'next'
-import Collapse from '../../components/Collapse'
-import Username from '../../subpages/login/username'
-import PasswordLogin from '../../subpages/login/passwordLogin'
-import NewPassword from '../../subpages/login/newPassword'
-import Email from '../../subpages/login/email'
+import Collapse from '@lib/components/Collapse'
 import Head from 'next/head'
-import { appName } from '../../constants'
-import {
-  AuthWallActionType,
-  AuthWallProgress,
-  useAuthWallContext
-} from '../../contexts/authWallContext'
-import ThemeSwitch from '../../components/ThemeSwitch'
-import api from '../../api'
-import { useQuery } from 'react-query'
-import { useEffect, useState } from 'react'
-import * as R from 'ramda'
-import { useRouter } from 'next/router'
+import { appName } from '@lib//constants'
+import { AuthWallProgress } from '@lib/contexts/authWallContext'
+import ThemeSwitch from '@lib/components/ThemeSwitch'
+import { useState } from 'react'
 import { useTimeoutFn } from 'react-use'
+import Username from './lib/components/username'
+import PasswordLogin from './lib/components/passwordLogin'
+import NewPassword from './lib/components/newPassword'
+import Email from './lib/components/email'
+import useLoginPage from './lib/hooks/useLoginPage'
 
-const Home: NextPage = () => {
-  const { state, dispatch } = useAuthWallContext()
-  const router = useRouter()
-  const { data, refetch, error } = useQuery(api.checkSession.cacheKey, api.checkSession, {
-    retry: () =>
-      state.progress === AuthWallProgress.BEGIN || state.progress === AuthWallProgress.AUTH,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    cacheTime: 0
-  })
-
-  console.log(JSON.stringify(error))
-  console.log(typeof error)
-
-  useEffect(() => {
-    if (state.progress === AuthWallProgress.AUTH) {
-      refetch()
-    }
-  }, [state, refetch])
-
-  useEffect(() => {
-    if (state.progress === AuthWallProgress.BEGIN && !R.isNil(data) && !data.hasSession) {
-      dispatch({
-        type: AuthWallActionType.FILL,
-        progress: AuthWallProgress.USERNAME_SELECTION,
-        payload: {}
-      })
-    }
-
-    if (state.progress === AuthWallProgress.AUTH && !R.isNil(data) && data.hasSession) {
-      router.push('/app')
-    }
-  }, [data, state, dispatch, router])
+const Login: NextPage = () => {
+  const {
+    context: { state },
+    isCurrent
+  } = useLoginPage()
 
   return (
     <>
@@ -76,9 +41,7 @@ const Home: NextPage = () => {
         <Email />
       </Collapse>
 
-      <Collapse
-        in={state.progress === AuthWallProgress.BEGIN || state.progress === AuthWallProgress.AUTH}
-      >
+      <Collapse in={isCurrent}>
         <Loading />
       </Collapse>
     </>
@@ -112,4 +75,4 @@ const Loading = () => {
   )
 }
 
-export default Home
+export default Login

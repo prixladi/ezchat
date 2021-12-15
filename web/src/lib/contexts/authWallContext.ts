@@ -11,13 +11,13 @@ const enum AuthWallProgress {
 }
 
 const enum AuthWallActionType {
-  FILL,
+  MOVE,
   AUTH,
   CLEAR
 }
 
-type SelectAction = {
-  type: AuthWallActionType.FILL
+type MoveAction = {
+  type: AuthWallActionType.MOVE
   progress: AuthWallProgress
   payload: {
     username?: string | null
@@ -26,16 +26,18 @@ type SelectAction = {
   }
 }
 
-type AuthAction = {
+type BeginOrAuthAction = {
   type: AuthWallActionType.AUTH | AuthWallActionType.CLEAR
 }
 
-type AuthWallAction = SelectAction | AuthAction
+type AuthWallAction = MoveAction | BeginOrAuthAction
 
 type AuthWallState = {
-  username?: string | null
-  password?: string | null
-  email?: string | null
+  payload?: {
+    username?: string | null
+    password?: string | null
+    email?: string | null
+  }
   progress: AuthWallProgress
 }
 
@@ -55,12 +57,8 @@ const AuthWallContext = React.createContext<AuthWallContext>({
 
 const reducer = (state: AuthWallState, action: AuthWallAction): AuthWallState => {
   switch (action.type) {
-    case AuthWallActionType.FILL:
-      return {
-        ...state,
-        ...action.payload,
-        progress: R.defaultTo(state.progress, action.progress)
-      }
+    case AuthWallActionType.MOVE:
+      return R.mergeDeepRight(state, action)
     case AuthWallActionType.AUTH:
       return {
         progress: AuthWallProgress.AUTH
