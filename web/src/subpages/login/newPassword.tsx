@@ -1,43 +1,43 @@
-import type { NextPage } from 'next';
-import * as R from 'ramda';
-import OneInputForm, { FormUtils } from '../../components/OneInputForm';
-import ThemeSwitch from '../../components/ThemeSwitch';
-import { appName } from '../../constants';
+import type { NextPage } from 'next'
+import * as R from 'ramda'
+import OneInputForm, { FormUtils } from '../../components/OneInputForm'
+import ThemeSwitch from '../../components/ThemeSwitch'
+import { appName } from '../../constants'
 import {
   AuthWallActionType,
   AuthWallProgress,
-  useAuthWallContext,
-} from '../../contexts/authWallContext';
+  useAuthWallContext
+} from '../../contexts/authWallContext'
 
 const NewPassword: NextPage = () => {
-  const { state, dispatch } = useAuthWallContext();
+  const { state, dispatch } = useAuthWallContext()
 
   const dispatchEmailSelection = (password: string) => {
     dispatch({
       type: AuthWallActionType.FILL,
       progress: AuthWallProgress.EMAIL_SELECTION,
       payload: {
-        password,
-      },
-    });
-  };
+        password
+      }
+    })
+  }
 
   const dispatchUsernameSelection = () => {
     dispatch({
       type: AuthWallActionType.FILL,
       progress: AuthWallProgress.USERNAME_SELECTION,
-      payload: {},
-    });
-  };
+      payload: {}
+    })
+  }
 
   const onSubmit = async (password: string, { setError }: FormUtils) => {
     if (R.isNil(password) || R.isEmpty(password) || R.length(password) < 6) {
-      setError('Password must be at least 6 characters long.');
-      return;
+      setError('Password must be at least 6 characters long.')
+      return
     }
 
-    dispatchEmailSelection(password);
-  };
+    dispatchEmailSelection(password)
+  }
 
   return (
     <div className="centered-content-md">
@@ -75,7 +75,7 @@ const NewPassword: NextPage = () => {
         )}
       />
     </div>
-  );
-};
+  )
+}
 
-export default NewPassword;
+export default NewPassword

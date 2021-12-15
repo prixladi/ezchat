@@ -1,14 +1,14 @@
-import type { AppProps } from 'next/app';
-import { ThemeProvider } from 'next-themes';
-import '../styles/global.css';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
-import { useAuthWallContextCreator } from '../contexts/authWallContext';
+import type { AppProps } from 'next/app'
+import { ThemeProvider } from 'next-themes'
+import '../styles/global.css'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { useAuthWallContextCreator } from '../contexts/authWallContext'
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const [Context, state, dispatch] = useAuthWallContextCreator();
+  const [Context, state, dispatch] = useAuthWallContextCreator()
 
   return (
     <ThemeProvider attribute="class" enableSystem={false} defaultTheme="dark">
@@ -19,7 +19,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ThemeProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App

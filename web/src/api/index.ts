@@ -1,12 +1,12 @@
-import checkSession from './checkSession';
-import createUser from './createUser';
-import createUserAnonymous from './createUserAnonymous';
-import getCurrentUser from './getCurrentUser';
-import getStatusByEmail from './getStatusByEmail';
-import getStatusByUsername from './getStatusByUsername';
-import logout from './logout';
-import passwordLogin from './passwordLogin';
-import tokenLogin from './tokenLogin';
+import checkSession from './checkSession'
+import createUser from './createUser'
+import createUserAnonymous from './createUserAnonymous'
+import getCurrentUser from './getCurrentUser'
+import getStatusByEmail from './getStatusByEmail'
+import getStatusByUsername from './getStatusByUsername'
+import logout from './logout'
+import passwordLogin from './passwordLogin'
+import tokenLogin from './tokenLogin'
 
 export default {
   getStatusByUsername,
@@ -17,5 +17,5 @@ export default {
   passwordLogin,
   tokenLogin,
   logout,
-  checkSession,
-};
+  checkSession
+}

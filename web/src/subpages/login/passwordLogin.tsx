@@ -1,52 +1,52 @@
-import type { NextPage } from 'next';
-import { useState } from 'react';
-import { useQueryClient } from 'react-query';
-import api from '../../api';
-import OneInputForm, { FormUtils } from '../../components/OneInputForm';
-import ThemeSwitch from '../../components/ThemeSwitch';
-import { appName } from '../../constants';
+import type { NextPage } from 'next'
+import { useState } from 'react'
+import { useQueryClient } from 'react-query'
+import api from '../../api'
+import OneInputForm, { FormUtils } from '../../components/OneInputForm'
+import ThemeSwitch from '../../components/ThemeSwitch'
+import { appName } from '../../constants'
 import {
   AuthWallActionType,
   AuthWallProgress,
-  useAuthWallContext,
-} from '../../contexts/authWallContext';
+  useAuthWallContext
+} from '../../contexts/authWallContext'
 
 const PasswordLogin: NextPage = () => {
-  const client = useQueryClient();
-  const { state, dispatch } = useAuthWallContext();
-  const [isLoading, setIsLoading] = useState(false);
+  const client = useQueryClient()
+  const { state, dispatch } = useAuthWallContext()
+  const [isLoading, setIsLoading] = useState(false)
 
   const onSubmit = async (password: string, { setError, hideError }: FormUtils) => {
     if (isLoading) {
-      return;
+      return
     }
 
-    hideError();
-    setIsLoading(true);
+    hideError()
+    setIsLoading(true)
     try {
       await client.executeMutation({
         mutationFn: async () =>
-          await api.passwordLogin({ username: state.username!, password: password }),
-      });
+          await api.passwordLogin({ username: state.username!, password: password })
+      })
 
       dispatch({
-        type: AuthWallActionType.AUTH,
-      });
+        type: AuthWallActionType.AUTH
+      })
     } catch (err) {
-      setError('Username or password is wrong.');
-      console.error(err);
+      setError('Username or password is wrong.')
+      console.error(err)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const dispatchUsernameSelection = () => {
     dispatch({
       type: AuthWallActionType.FILL,
       progress: AuthWallProgress.USERNAME_SELECTION,
-      payload: {},
-    });
-  };
+      payload: {}
+    })
+  }
 
   return (
     <div className="centered-content-md">
@@ -85,7 +85,7 @@ const PasswordLogin: NextPage = () => {
         )}
       />
     </div>
-  );
-};
+  )
+}
 
-export default PasswordLogin;
+export default PasswordLogin

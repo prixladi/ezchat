@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 type Props = {
-  content: React.ReactNode | string;
-  isLoading?: boolean;
-  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>;
-};
+  content: React.ReactNode | string
+  isLoading?: boolean
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>
+}
 
 const InputButton: React.FC<Props> = ({ content, isLoading, onClick }) => {
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false)
 
   return (
     <button
@@ -15,12 +15,12 @@ const InputButton: React.FC<Props> = ({ content, isLoading, onClick }) => {
       disabled={submitting || isLoading}
       className="form-main-input-button"
       onClick={async (e) => {
-        setSubmitting(true);
+        setSubmitting(true)
         try {
-          e.preventDefault();
-          await onClick(e);
+          e.preventDefault()
+          await onClick(e)
         } finally {
-          setSubmitting(false);
+          setSubmitting(false)
         }
       }}
     >
@@ -32,7 +32,7 @@ const InputButton: React.FC<Props> = ({ content, isLoading, onClick }) => {
         content
       )}
     </button>
-  );
-};
+  )
+}
 
-export default InputButton;
+export default InputButton

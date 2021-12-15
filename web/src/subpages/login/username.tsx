@@ -1,64 +1,64 @@
-import type { NextPage } from 'next';
-import OneInputForm, { FormUtils } from '../../components/OneInputForm';
-import ThemeSwitch from '../../components/ThemeSwitch';
-import { useQueryClient } from 'react-query';
-import api from '../../api';
-import { appName, maxUserNameLength, minUserNameLength, validUsernameRegex } from '../../constants';
-import * as R from 'ramda';
+import type { NextPage } from 'next'
+import OneInputForm, { FormUtils } from '../../components/OneInputForm'
+import ThemeSwitch from '../../components/ThemeSwitch'
+import { useQueryClient } from 'react-query'
+import api from '../../api'
+import { appName, maxUserNameLength, minUserNameLength, validUsernameRegex } from '../../constants'
+import * as R from 'ramda'
 import {
   AuthWallActionType,
   AuthWallProgress,
-  useAuthWallContext,
-} from '../../contexts/authWallContext';
-import { useState } from 'react';
+  useAuthWallContext
+} from '../../contexts/authWallContext'
+import { useState } from 'react'
 
 const Username: NextPage = () => {
-  const client = useQueryClient();
-  const { state, dispatch } = useAuthWallContext();
-  const [isLoading, setIsLoading] = useState(false);
+  const client = useQueryClient()
+  const { state, dispatch } = useAuthWallContext()
+  const [isLoading, setIsLoading] = useState(false)
 
   const dispatchPasswordSelection = (username: string) => {
     dispatch({
       type: AuthWallActionType.FILL,
       progress: AuthWallProgress.PASSWORD_SELECTION,
       payload: {
-        username,
-      },
-    });
-  };
+        username
+      }
+    })
+  }
 
   const dispatchNewPasswordSelection = (username: string) => {
     dispatch({
       type: AuthWallActionType.FILL,
       progress: AuthWallProgress.NEW_PASSWORD_SELECTION,
       payload: {
-        username,
-      },
-    });
-  };
+        username
+      }
+    })
+  }
 
   const anonymousLogin = async ({ setError, hideError }: FormUtils) => {
     if (isLoading) {
-      return;
+      return
     }
 
-    hideError();
-    setIsLoading(true);
+    hideError()
+    setIsLoading(true)
     try {
       await client.executeMutation({
-        mutationFn: async () => await api.createUserAnonymous(),
-      });
+        mutationFn: async () => await api.createUserAnonymous()
+      })
 
       dispatch({
-        type: AuthWallActionType.AUTH,
-      });
+        type: AuthWallActionType.AUTH
+      })
     } catch (err) {
-      setError('Unable to log anonymously because of the error on server.');
-      console.error(err);
+      setError('Unable to log anonymously because of the error on server.')
+      console.error(err)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const onSubmit = async (username: string, { setError }: FormUtils) => {
     if (
@@ -68,36 +68,36 @@ const Username: NextPage = () => {
       R.length(username) > maxUserNameLength
     ) {
       setError(
-        `Username must be between '${minUserNameLength}' and '${maxUserNameLength}' characters long.`,
-      );
-      return;
+        `Username must be between '${minUserNameLength}' and '${maxUserNameLength}' characters long.`
+      )
+      return
     }
 
     if (!validUsernameRegex.test(username)) {
-      setError('Username can only contain letters and numbers.');
-      return;
+      setError('Username can only contain letters and numbers.')
+      return
     }
 
     try {
       const data = await client.fetchQuery([api.getStatusByUsername.cacheKey, username], () =>
-        api.getStatusByUsername(username!),
-      );
+        api.getStatusByUsername(username!)
+      )
 
       if (!data.valid) {
-        setError("Username didn't pass validation on server, try different one.");
-        return;
+        setError("Username didn't pass validation on server, try different one.")
+        return
       }
 
       if (data.used) {
-        dispatchPasswordSelection(username);
+        dispatchPasswordSelection(username)
       } else {
-        dispatchNewPasswordSelection(username);
+        dispatchNewPasswordSelection(username)
       }
     } catch (err) {
-      console.error(err);
-      setError('Error occurend on server. Try again please.');
+      console.error(err)
+      setError('Error occurend on server. Try again please.')
     }
-  };
+  }
 
   return (
     <>
@@ -127,7 +127,7 @@ const Username: NextPage = () => {
         />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Username;
+export default Username

@@ -1,38 +1,38 @@
-import { default as mergeWith } from 'lodash.mergewith';
-import { AnimatePresence, HTMLMotionProps, motion, Variants as _Variants } from 'framer-motion';
-import * as React from 'react';
-import { TransitionEasings, Variants, withDelay, WithTransitionConfig } from './transition-utils';
+import { default as mergeWith } from 'lodash.mergewith'
+import { AnimatePresence, HTMLMotionProps, motion, Variants as _Variants } from 'framer-motion'
+import * as React from 'react'
+import { TransitionEasings, Variants, withDelay, WithTransitionConfig } from './transition-utils'
 
 export interface CollapseOptions {
   /**
    * If `true`, the opacity of the content will be animated
    * @default true
    */
-  animateOpacity?: boolean;
+  animateOpacity?: boolean
   /**
    * The height you want the content in its collapsed state.
    * @default 0
    */
-  startingHeight?: number | string;
+  startingHeight?: number | string
   /**
    * The height you want the content in its expanded state.
    * @default "auto"
    */
-  endingHeight?: number | string;
+  endingHeight?: number | string
 }
 
 const defaultTransitions = {
   exit: {
     height: { duration: 1.2, ease: TransitionEasings.easeOut },
     opacity: { duration: 1.3, ease: TransitionEasings.easeOut },
-    scale: { duration: 1.2, ease: TransitionEasings.easeOut },
+    scale: { duration: 1.2, ease: TransitionEasings.easeOut }
   },
   enter: {
     height: { duration: 1.3, ease: TransitionEasings.easeOut },
     opacity: { duration: 1.4, ease: TransitionEasings.easeOut },
-    scale: { duration: 1.3, ease: TransitionEasings.easeOut },
-  },
-};
+    scale: { duration: 1.3, ease: TransitionEasings.easeOut }
+  }
+}
 
 const variants: Variants<CollapseOptions> = {
   exit: ({ startingHeight, transition, transitionEnd, delay }) => ({
@@ -40,17 +40,17 @@ const variants: Variants<CollapseOptions> = {
     overflow: 'hidden',
     height: startingHeight,
     transitionEnd: transitionEnd?.exit,
-    transition: transition?.exit ?? withDelay.exit(defaultTransitions.exit, delay),
+    transition: transition?.exit ?? withDelay.exit(defaultTransitions.exit, delay)
   }),
   enter: ({ endingHeight, transition, transitionEnd, delay }) => ({
     ...{ scale: 1 },
     height: endingHeight,
     transitionEnd: transitionEnd?.enter,
-    transition: transition?.enter ?? withDelay.enter(defaultTransitions.enter, delay),
-  }),
-};
+    transition: transition?.enter ?? withDelay.enter(defaultTransitions.enter, delay)
+  })
+}
 
-export type ICollapse = CollapseProps;
+export type ICollapse = CollapseProps
 
 export interface CollapseProps
   extends WithTransitionConfig<HTMLMotionProps<'div'>>,
@@ -68,17 +68,17 @@ const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, ref) =>
     transition,
     transitionEnd,
     ...rest
-  } = props;
+  } = props
 
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      setMounted(true);
-    });
-    return () => clearTimeout(timeout);
-  }, []);
+      setMounted(true)
+    })
+    return () => clearTimeout(timeout)
+  }, [])
 
-  const hasStartingHeight = parseFloat(startingHeight.toString()) > 0;
+  const hasStartingHeight = parseFloat(startingHeight.toString()) > 0
 
   const custom = {
     startingHeight,
@@ -90,13 +90,13 @@ const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, ref) =>
       exit: unmountOnExit
         ? undefined
         : {
-            display: hasStartingHeight ? 'block' : 'none',
-          },
-    }),
-  };
+            display: hasStartingHeight ? 'block' : 'none'
+          }
+    })
+  }
 
-  const show = unmountOnExit ? isOpen : true;
-  const animate = isOpen || unmountOnExit ? 'enter' : 'exit';
+  const show = unmountOnExit ? isOpen : true
+  const animate = isOpen || unmountOnExit ? 'enter' : 'exit'
 
   return (
     <AnimatePresence initial={false} custom={custom}>
@@ -107,7 +107,7 @@ const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, ref) =>
           style={{
             overflow: 'hidden',
             display: 'block',
-            ...style,
+            ...style
           }}
           custom={custom}
           variants={variants as _Variants}
@@ -117,9 +117,9 @@ const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, ref) =>
         />
       )}
     </AnimatePresence>
-  );
-});
+  )
+})
 
-Collapse.displayName = 'Collapse';
+Collapse.displayName = 'Collapse'
 
-export default Collapse;
+export default Collapse

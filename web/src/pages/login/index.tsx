@@ -1,57 +1,57 @@
-import type { NextPage } from 'next';
-import Collapse from '../../components/Collapse';
-import Username from '../../subpages/login/username';
-import PasswordLogin from '../../subpages/login/passwordLogin';
-import NewPassword from '../../subpages/login/newPassword';
-import Email from '../../subpages/login/email';
-import Head from 'next/head';
-import { appName } from '../../constants';
+import type { NextPage } from 'next'
+import Collapse from '../../components/Collapse'
+import Username from '../../subpages/login/username'
+import PasswordLogin from '../../subpages/login/passwordLogin'
+import NewPassword from '../../subpages/login/newPassword'
+import Email from '../../subpages/login/email'
+import Head from 'next/head'
+import { appName } from '../../constants'
 import {
   AuthWallActionType,
   AuthWallProgress,
-  useAuthWallContext,
-} from '../../contexts/authWallContext';
-import ThemeSwitch from '../../components/ThemeSwitch';
-import api from '../../api';
-import { useQuery } from 'react-query';
-import { useEffect, useState } from 'react';
-import * as R from 'ramda';
-import { useRouter } from 'next/router';
-import { useTimeoutFn } from 'react-use';
+  useAuthWallContext
+} from '../../contexts/authWallContext'
+import ThemeSwitch from '../../components/ThemeSwitch'
+import api from '../../api'
+import { useQuery } from 'react-query'
+import { useEffect, useState } from 'react'
+import * as R from 'ramda'
+import { useRouter } from 'next/router'
+import { useTimeoutFn } from 'react-use'
 
 const Home: NextPage = () => {
-  const { state, dispatch } = useAuthWallContext();
-  const router = useRouter();
+  const { state, dispatch } = useAuthWallContext()
+  const router = useRouter()
   const { data, refetch, error } = useQuery(api.checkSession.cacheKey, api.checkSession, {
     retry: () =>
       state.progress === AuthWallProgress.BEGIN || state.progress === AuthWallProgress.AUTH,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    cacheTime: 0,
-  });
+    cacheTime: 0
+  })
 
-  console.log(JSON.stringify(error));
-  console.log(typeof error);
+  console.log(JSON.stringify(error))
+  console.log(typeof error)
 
   useEffect(() => {
     if (state.progress === AuthWallProgress.AUTH) {
-      refetch();
+      refetch()
     }
-  }, [state, refetch]);
+  }, [state, refetch])
 
   useEffect(() => {
     if (state.progress === AuthWallProgress.BEGIN && !R.isNil(data) && !data.hasSession) {
       dispatch({
         type: AuthWallActionType.FILL,
         progress: AuthWallProgress.USERNAME_SELECTION,
-        payload: {},
-      });
+        payload: {}
+      })
     }
 
     if (state.progress === AuthWallProgress.AUTH && !R.isNil(data) && data.hasSession) {
-      router.push('/app');
+      router.push('/app')
     }
-  }, [data, state, dispatch]);
+  }, [data, state, dispatch, router])
 
   return (
     <>
@@ -82,12 +82,12 @@ const Home: NextPage = () => {
         <Loading />
       </Collapse>
     </>
-  );
-};
+  )
+}
 
 const Loading = () => {
-  const [showMessage, setShowMessage] = useState(false);
-  useTimeoutFn(() => setShowMessage(true), 8000);
+  const [showMessage, setShowMessage] = useState(false)
+  useTimeoutFn(() => setShowMessage(true), 8000)
 
   return (
     <div className="centered-content-md">
@@ -109,7 +109,7 @@ const Loading = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
