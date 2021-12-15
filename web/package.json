@@ -1,11 +1,13 @@
 {
   "name": "ezchat-web",
   "private": false,
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint && prettier --write src/**/*.{js,jsx,ts,tsx}"
+    "tsc:check": "tsc --noEmit",
+    "lint": "yarn tsc:check && next lint && prettier --write src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.2",
@@ -18,7 +20,8 @@
     "ramda": "^0.27.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-query": "^3.34.2"
+    "react-query": "^3.34.2",
+    "react-use": "^17.3.1"
   },
   "devDependencies": {
     "@types/lodash.mergewith": "^4.6.6",

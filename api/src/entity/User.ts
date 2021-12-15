@@ -48,4 +48,5 @@ export class User {
   updatedAt: Date;
 
   static validUsernameRegex = /^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
+  static validEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 }

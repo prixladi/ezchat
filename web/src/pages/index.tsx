@@ -1,12 +1,13 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { routes } from '../constants';
 
 const Home: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/login');
+    router.push(routes.login);
   }, [router]);
 
   return null;

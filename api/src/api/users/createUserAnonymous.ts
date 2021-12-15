@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import userService from '../../services/user';
-import redisService from '../../services/redis';
 import { StatusCodes } from 'http-status-codes';
 import { getRepository } from 'typeorm';
 import { User } from '../../entity/User';
@@ -12,12 +11,8 @@ export default async (req: Request, res: Response<AnonymousUserCreatedResponseDt
   const repo = getRepository(User);
   await repo.insert(user);
 
-  const dto = userService.createOneOffLoginDto(user);
-  await redisService.setOneOffToken(dto);
-
   const resp = {
-    userId: user.id,
-    loginToken: dto.token,
+    userId: user.id
   };
 
   req.session.userId = resp.userId;

@@ -2,7 +2,7 @@ import express from 'express';
 import config from './config';
 import { createConnection as createDbConnection } from 'typeorm';
 import { createConnection as createRedisConnection } from './redis';
-import api from './api';
+import buildApi from './api';
 import errorMiddleware from './api/middleware/errorMiddleware';
 import cors from 'cors';
 import session from './session';
@@ -13,13 +13,13 @@ const main = async () => {
   const redis = createRedisConnection(config.redis);
 
   const app = express();
-  //app.set('trust proxy', 1)
-  app.use(cors());
+
+  app.use(cors({ origin: true, credentials: true }));
   app.use(session(redis));
 
   app.use(express.json());
   app.use(loggingMiddleware);
-  app.use(api);
+  app.use(buildApi(redis));
   app.use(errorMiddleware);
 
   app.listen(config.app.port, () => {

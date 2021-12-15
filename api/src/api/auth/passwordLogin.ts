@@ -23,9 +23,10 @@ export default async (req: Request<{}, {}, PasswordLoginRequestDto>, res: Respon
         message: "Username-Password pair don't match",
       },
     });
+
+    return;
   }
 
   req.session.userId = user.id;
   res.sendStatus(StatusCodes.NO_CONTENT);
 };
-

@@ -15,6 +15,8 @@ export default async (req: Request<{}, {}, TokenLoginRequestDto>, res: Response)
         message: 'One off login token is invalid',
       },
     });
+
+    return;
   }
 
   const repo = getRepository(User);

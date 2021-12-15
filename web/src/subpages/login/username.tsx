@@ -3,17 +3,19 @@ import OneInputForm, { FormUtils } from '../../components/OneInputForm';
 import ThemeSwitch from '../../components/ThemeSwitch';
 import { useQueryClient } from 'react-query';
 import api from '../../api';
-import { appName, validUsernameRegex } from '../../constants';
+import { appName, maxUserNameLength, minUserNameLength, validUsernameRegex } from '../../constants';
 import * as R from 'ramda';
 import {
   AuthWallActionType,
   AuthWallProgress,
   useAuthWallContext,
 } from '../../contexts/authWallContext';
+import { useState } from 'react';
 
 const Username: NextPage = () => {
   const client = useQueryClient();
   const { state, dispatch } = useAuthWallContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatchPasswordSelection = (username: string) => {
     dispatch({
@@ -35,22 +37,39 @@ const Username: NextPage = () => {
     });
   };
 
-  const dispatchAnonymousLogin = () => {
-    dispatch({
-      type: AuthWallActionType.FILL,
-      progress: AuthWallProgress.READY_TO_LOGIN_ANONYMOUS,
-      payload: {},
-    });
+  const anonymousLogin = async ({ setError, hideError }: FormUtils) => {
+    if (isLoading) {
+      return;
+    }
+
+    hideError();
+    setIsLoading(true);
+    try {
+      await client.executeMutation({
+        mutationFn: async () => await api.createUserAnonymous(),
+      });
+
+      dispatch({
+        type: AuthWallActionType.AUTH,
+      });
+    } catch (err) {
+      setError('Unable to log anonymously because of the error on server.');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const onSubmit = async (username: string, { setError }: FormUtils) => {
     if (
       R.isNil(username) ||
       R.isEmpty(username) ||
-      R.length(username) < 3 ||
-      R.length(username) > 20
+      R.length(username) < minUserNameLength ||
+      R.length(username) > maxUserNameLength
     ) {
-      setError('Username must be between 3 and 20 characters long.');
+      setError(
+        `Username must be between '${minUserNameLength}' and '${maxUserNameLength}' characters long.`,
+      );
       return;
     }
 
@@ -60,12 +79,13 @@ const Username: NextPage = () => {
     }
 
     try {
-      const data = await client.fetchQuery(['usernameStatus', username], () =>
+      const data = await client.fetchQuery([api.getStatusByUsername.cacheKey, username], () =>
         api.getStatusByUsername(username!),
       );
 
       if (!data.valid) {
         setError("Username didn't pass validation on server, try different one.");
+        return;
       }
 
       if (data.used) {
@@ -94,15 +114,16 @@ const Username: NextPage = () => {
           placeholder="Username"
           aria-label="username"
           rightButtonContent="GO!"
+          isLoading={isLoading}
           handleSubmit={onSubmit}
-          footerContent={
+          footerContent={(utils) => (
             <p>
               Or start{' '}
-              <a onClick={dispatchAnonymousLogin} className="link">
+              <a onClick={() => anonymousLogin(utils)} className="link">
                 anonymous
               </a>
             </p>
-          }
+          )}
         />
       </div>
     </>

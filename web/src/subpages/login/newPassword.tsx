@@ -56,14 +56,23 @@ const NewPassword: NextPage = () => {
         aria-label="new-password"
         rightButtonContent="GO!"
         handleSubmit={onSubmit}
-        footerContent={
+        additionalContent={
+          <input
+            value={state.username ?? 'default'}
+            autoComplete="username"
+            type="text"
+            hidden
+            readOnly
+          />
+        }
+        footerContent={() => (
           <p>
             Or pick{' '}
             <a className="link" onClick={dispatchUsernameSelection}>
               different username
             </a>
           </p>
-        }
+        )}
       />
     </div>
   );

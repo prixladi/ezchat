@@ -3,8 +3,6 @@ import { AnimatePresence, HTMLMotionProps, motion, Variants as _Variants } from 
 import * as React from 'react';
 import { TransitionEasings, Variants, withDelay, WithTransitionConfig } from './transition-utils';
 
-const isNumeric = (value?: string | number) => value != null && parseInt(value.toString(), 10) > 0;
-
 export interface CollapseOptions {
   /**
    * If `true`, the opacity of the content will be animated

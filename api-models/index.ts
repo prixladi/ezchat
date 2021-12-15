@@ -2,10 +2,18 @@ export type GetStatusByUsernameParams = {
   username: string;
 };
 
+export type GetStatusByEmailParams = {
+  email: string;
+};
+
+export type CheckSessionResponseDto = {
+  hasSession: boolean;
+};
+
 export type CurrentUserResponseDto = {
   id: string;
   username: string;
-  email: string;
+  email?: string | null;
   isAnonymous: boolean;
 };
 
@@ -21,12 +29,11 @@ export type TokenLoginRequestDto = {
 export type CreateUserRequestDto = {
   username: string;
   password: string;
-  email?: string;
+  email?: string | null;
 };
 
 export type AnonymousUserCreatedResponseDto = {
   userId: string;
-  loginToken: string;
 };
 
 export type UserCreatedResponseDto = {
@@ -35,6 +42,12 @@ export type UserCreatedResponseDto = {
 
 export type UsernameStatusResponseDto = {
   username: string;
+  used: boolean;
+  valid: boolean;
+};
+
+export type EmailStatusResponseDto = {
+  email: string;
   used: boolean;
   valid: boolean;
 };

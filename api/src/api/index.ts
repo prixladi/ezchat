@@ -1,10 +1,16 @@
 import { Router } from 'express';
+import { Redis } from 'ioredis';
 import auth from './auth';
+import apiRateMiddleware from './middleware/apiRateMiddleware';
 import users from './users';
 
-var router = Router();
+export default (redis: Redis) => {
+  var router = Router();
 
-router.use('/api/v1/users', users);
-router.use('/api/v1/auth', auth);
+  router.use('/api/', apiRateMiddleware(redis));
 
-export default router;
+  router.use('/api/v1/users', users);
+  router.use('/api/v1/auth', auth);
+
+  return router;
+};

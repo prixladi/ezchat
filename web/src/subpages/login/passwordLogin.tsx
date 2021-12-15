@@ -1,5 +1,8 @@
 import type { NextPage } from 'next';
-import OneInputForm from '../../components/OneInputForm';
+import { useState } from 'react';
+import { useQueryClient } from 'react-query';
+import api from '../../api';
+import OneInputForm, { FormUtils } from '../../components/OneInputForm';
 import ThemeSwitch from '../../components/ThemeSwitch';
 import { appName } from '../../constants';
 import {
@@ -9,16 +12,32 @@ import {
 } from '../../contexts/authWallContext';
 
 const PasswordLogin: NextPage = () => {
+  const client = useQueryClient();
   const { state, dispatch } = useAuthWallContext();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const dispatchReadyToLogin = (password: string) => {
-    dispatch({
-      type: AuthWallActionType.FILL,
-      progress: AuthWallProgress.READY_TO_LOGIN,
-      payload: {
-        password,
-      },
-    });
+  const onSubmit = async (password: string, { setError, hideError }: FormUtils) => {
+    if (isLoading) {
+      return;
+    }
+
+    hideError();
+    setIsLoading(true);
+    try {
+      await client.executeMutation({
+        mutationFn: async () =>
+          await api.passwordLogin({ username: state.username!, password: password }),
+      });
+
+      dispatch({
+        type: AuthWallActionType.AUTH,
+      });
+    } catch (err) {
+      setError('Username or password is wrong.');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const dispatchUsernameSelection = () => {
@@ -34,7 +53,9 @@ const PasswordLogin: NextPage = () => {
       <ThemeSwitch />
       <div className="centered-content-block">
         <h1>{appName} | Password</h1>
-        <p>Enter password for user <b>&apos;{state.username}&apos;</b>.</p>
+        <p>
+          Enter password for user <b>&apos;{state.username}&apos;</b>.
+        </p>
       </div>
       <OneInputForm
         isOpen={state.progress === AuthWallProgress.PASSWORD_SELECTION}
@@ -43,15 +64,25 @@ const PasswordLogin: NextPage = () => {
         placeholder="**************"
         aria-label="password"
         rightButtonContent="GO!"
-        handleSubmit={async (password: string) => dispatchReadyToLogin(password)}
-        footerContent={
+        isLoading={isLoading}
+        handleSubmit={onSubmit}
+        additionalContent={
+          <input
+            value={state.username ?? 'default'}
+            autoComplete="username"
+            type="text"
+            hidden
+            readOnly
+          />
+        }
+        footerContent={() => (
           <p>
             Or pick{' '}
             <a className="link" onClick={dispatchUsernameSelection}>
               different username
             </a>
           </p>
-        }
+        )}
       />
     </div>
   );

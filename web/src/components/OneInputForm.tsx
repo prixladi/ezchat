@@ -10,14 +10,17 @@ import InputButton from './InputButton';
 
 type FormUtils = {
   setError: (str: string) => void;
+  hideError: () => void;
 };
 
 type Props = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
   error?: string;
   errorDismissTimeout?: number;
   rightButtonContent: React.ReactNode | string;
-  footerContent?: React.ReactNode | string;
+  footerContent?: (utils: FormUtils) => React.ReactNode;
+  additionalContent?: React.ReactNode;
   handleSubmit: (str: string, utils: FormUtils) => Promise<void>;
+  isLoading?: boolean;
   isOpen: boolean;
 };
 
@@ -27,7 +30,9 @@ const OneInputForm = ({
   isOpen,
   error: _error,
   errorDismissTimeout,
+  additionalContent,
   footerContent,
+  isLoading,
   ...props
 }: Props) => {
   const [value, setValue] = useState('');
@@ -68,11 +73,16 @@ const OneInputForm = ({
                 setValue(e.target.value);
               }}
             />
+            {additionalContent}
             <InputButton
               content={rightButtonContent}
+              isLoading={isLoading}
               onClick={async () => {
                 setShowError(false);
-                await handleSubmit(value, { setError: setErrorCallback });
+                await handleSubmit(value, {
+                  setError: setErrorCallback,
+                  hideError: () => setShowError(false),
+                });
               }}
             />
           </div>
@@ -85,7 +95,8 @@ const OneInputForm = ({
           </p>
         </div>
       </form>
-      {footerContent}
+      {footerContent &&
+        footerContent({ setError: setErrorCallback, hideError: () => setShowError(false) })}
     </div>
   );
 };

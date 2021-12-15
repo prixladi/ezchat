@@ -2,18 +2,18 @@ import * as R from 'ramda';
 import React, { Context, Dispatch, useContext, useReducer } from 'react';
 
 const enum AuthWallProgress {
+  BEGIN,
   USERNAME_SELECTION,
   NEW_PASSWORD_SELECTION,
   PASSWORD_SELECTION,
   EMAIL_SELECTION,
-  READY_TO_LOGIN,
-  READY_TO_REGISTER,
-  READY_TO_LOGIN_ANONYMOUS,
+  AUTH,
 }
 
 const enum AuthWallActionType {
   FILL,
   AUTH,
+  CLEAR,
 }
 
 type SelectAction = {
@@ -27,7 +27,7 @@ type SelectAction = {
 };
 
 type AuthAction = {
-  type: AuthWallActionType.AUTH;
+  type: AuthWallActionType.AUTH | AuthWallActionType.CLEAR;
 };
 
 type AuthWallAction = SelectAction | AuthAction;
@@ -45,7 +45,7 @@ type AuthWallContext = {
 };
 
 const initialState = {
-  progress: AuthWallProgress.USERNAME_SELECTION,
+  progress: AuthWallProgress.BEGIN,
 };
 
 const AuthWallContext = React.createContext<AuthWallContext>({
@@ -63,14 +63,16 @@ const reducer = (state: AuthWallState, action: AuthWallAction): AuthWallState =>
       };
     case AuthWallActionType.AUTH:
       return {
-        progress: AuthWallProgress.USERNAME_SELECTION,
+        progress: AuthWallProgress.AUTH,
+      };
+    case AuthWallActionType.CLEAR:
+      return {
+        progress: AuthWallProgress.BEGIN,
       };
     default:
       return state;
   }
 };
-
-const usernameSelectedAction = (username: string) => {};
 
 const useAuthWallContextCreator = (): [
   Context<AuthWallContext>,
