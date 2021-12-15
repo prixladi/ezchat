@@ -1,5 +1,5 @@
-import oneOffToken from './oneOffToken'
+import oneOffToken from './oneOffToken';
 
 export default {
-  ...oneOffToken
-}
+  ...oneOffToken,
+};

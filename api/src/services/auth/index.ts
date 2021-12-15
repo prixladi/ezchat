@@ -1,5 +1,5 @@
-import password from './password'
+import password from './password';
 
 export default {
-  ...password
-}
+  ...password,
+};

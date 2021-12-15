@@ -4,8 +4,8 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  Index
-} from 'typeorm'
+  Index,
+} from 'typeorm';
 
 @Entity('users')
 @Index('UX_username', ['username'], { unique: true })
@@ -13,40 +13,41 @@ import {
 @Index('IX_is_anonymous', ['isAnonymous'])
 @Index('UX_email', ['email'], { unique: true })
 @Index('UX_normalized_email', ['normalizedEmail'], { unique: true })
-export class User {
+export default class User {
   @PrimaryGeneratedColumn('uuid')
-  id: string
+  id: string;
 
   @Column()
-  username: string
+  username: string;
 
   @Column()
-  normalizedUsername: string
+  normalizedUsername: string;
 
   @Column({ nullable: true })
-  email?: string
+  email?: string;
 
   @Column({ nullable: true })
-  normalizedEmail?: string
+  normalizedEmail?: string;
 
   @Column({ nullable: true })
-  passwordHash?: string
+  passwordHash?: string;
 
   @Column({ nullable: true })
-  passwordSalt?: string
+  passwordSalt?: string;
 
   @Column({ default: false })
-  isDisabled: boolean
+  isDisabled: boolean;
 
   @Column({ default: false })
-  isAnonymous: boolean
+  isAnonymous: boolean;
 
   @CreateDateColumn()
-  createdAt: Date
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date
+  updatedAt: Date;
 
-  static validUsernameRegex = /^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/
-  static validEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  static validUsernameRegex = /^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
+
+  static validEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 }

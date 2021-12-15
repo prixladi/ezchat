@@ -1,14 +1,17 @@
-import { NextFunction, Request, Response } from 'express'
-import { StatusCodes } from 'http-status-codes'
-import config from '../../config'
-import { logger } from '../../logging'
+import { NextFunction, Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import config from '../../config';
+import { logger } from '../../logging';
 
+// eslint-disable-next-line no-unused-vars
 export default (err: Error, _: Request, res: Response, __: NextFunction): Response => {
-  logger.error(err)
+  logger.error(err);
 
   if (config.api.includeErrorTraceInResponse) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: err })
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: err });
   }
 
-  return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: { message: err.message } })
-}
+  return res
+    .sendStatus(StatusCodes.INTERNAL_SERVER_ERROR)
+    .json({ error: { message: err.message } });
+};

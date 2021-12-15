@@ -1,27 +1,27 @@
-import { TokenLoginRequestDto } from '@api-models'
-import { Request, Response } from 'express'
-import { StatusCodes } from 'http-status-codes'
-import { getRepository } from 'typeorm'
-import { User } from '../../entity/User'
-import redisService from '../../services/redis'
-import R from 'ramda'
+import { TokenLoginRequestDto } from '@api-models';
+import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import { getRepository } from 'typeorm';
+import R from 'ramda';
+import User from '../../entity/User';
+import redisService from '../../services/redis';
 
 export default async (req: Request<{}, {}, TokenLoginRequestDto>, res: Response) => {
-  const oneOfToken = await redisService.getOneOffToken(req.body.token)
+  const oneOfToken = await redisService.getOneOffToken(req.body.token);
 
   if (R.isNil(oneOfToken)) {
     res.status(StatusCodes.BAD_REQUEST).send({
       error: {
-        message: 'One off login token is invalid'
-      }
-    })
+        message: 'One off login token is invalid',
+      },
+    });
 
-    return
+    return;
   }
 
-  const repo = getRepository(User)
-  const user = await repo.findOne({ where: { id: oneOfToken.userId } })
+  const repo = getRepository(User);
+  const user = await repo.findOne({ where: { id: oneOfToken.userId } });
 
-  req.session.userId = user.id
-  res.sendStatus(StatusCodes.NO_CONTENT)
-}
+  req.session.userId = user.id;
+  res.sendStatus(StatusCodes.NO_CONTENT);
+};

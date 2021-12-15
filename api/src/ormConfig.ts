@@ -1,4 +1,4 @@
-import R from 'ramda'
+import R from 'ramda';
 
 export = {
   type: 'postgres',
@@ -6,7 +6,7 @@ export = {
   password: R.defaultTo('secret', process.env.DB_PASSWORD),
   database: R.defaultTo('ezchat', process.env.DB_NAME),
   host: R.defaultTo('localhost', process.env.DB_HOST),
-  port: R.defaultTo(5432, parseInt(process.env.DB_POSRT)),
+  port: R.defaultTo(5432, parseInt(process.env.DB_POSRT, 10)),
   logging: R.defaultTo(false, process.env.DB_LOGGING_ENABLED),
   synchronize: false,
   entities: ['src/entity/**/*.ts'],
@@ -15,6 +15,6 @@ export = {
   cli: {
     entitiesDir: 'src/entity',
     migrationsDir: 'src/migration',
-    subscribersDir: 'src/subscriber'
-  }
-}
+    subscribersDir: 'src/subscriber',
+  },
+};
