@@ -1,8 +1,8 @@
-import type { NextPage } from 'next'
-import OneInputForm from '@lib/components/OneInputForm'
-import ThemeSwitch from '@lib/components/ThemeSwitch'
-import { appName } from '../../../../lib/constants'
-import useEmailPage from '../hooks/useEmailPage'
+import type { NextPage } from 'next';
+import OneInputForm, { FormUtils } from '@lib/components/OneInputForm';
+import ThemeSwitch from '@lib/components/ThemeSwitch';
+import { appName } from '../../../../lib/constants';
+import useEmailPage from '../hooks/useEmailPage';
 
 const Email: NextPage = () => {
   const {
@@ -10,8 +10,17 @@ const Email: NextPage = () => {
     registerWithEmail,
     registerWithoutEmail,
     isLoading,
-    isCurrent
-  } = useEmailPage()
+    isCurrent,
+  } = useEmailPage();
+
+  const footer = (utils: FormUtils) => (
+    <p>
+      Or{' '}
+      <button type="button" className="link" onClick={() => registerWithoutEmail(utils)}>
+        skip this step
+      </button>
+    </p>
+  );
 
   return (
     <div className="centered-content-md">
@@ -32,17 +41,10 @@ const Email: NextPage = () => {
         aria-label="password"
         rightButtonContent="GO!"
         handleSubmit={registerWithEmail}
-        footerContent={(utils) => (
-          <p>
-            Or{' '}
-            <a className="link" onClick={() => registerWithoutEmail(utils)}>
-              skip this step
-            </a>
-          </p>
-        )}
+        footerContent={footer}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Email
+export default Email;

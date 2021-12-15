@@ -1,27 +1,28 @@
-import api from '@lib/api'
-import type { NextPage } from 'next'
-import { useQuery } from 'react-query'
-import useLogout from './lib/hooks/useLogout'
+import api from '@lib/api';
+import type { NextPage } from 'next';
+import { useQuery } from 'react-query';
+import useLogout from './lib/hooks/useLogout';
 
 const App: NextPage = () => {
-  const { data } = useQuery(api.getCurrentUser.cacheKey, api.getCurrentUser)
-  const logout = useLogout()
+  const { data } = useQuery(api.getCurrentUser.cacheKey, api.getCurrentUser);
+  const logout = useLogout();
 
   if (data) {
     return (
-      <div
+      <button
+        type="button"
         className="flex flex-col"
         onClick={async () => {
-          await logout()
+          await logout();
         }}
       >
         <code>{JSON.stringify(data)}</code>
-        <button>LOGOUT</button>
-      </div>
-    )
+        <button type="button">LOGOUT</button>
+      </button>
+    );
   }
 
-  return null
-}
+  return null;
+};
 
-export default App
+export default App;

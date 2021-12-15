@@ -6,9 +6,9 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        xshort: { raw: '(max-height: 500px)' }
-      }
-    }
+        xshort: { raw: '(max-height: 500px)' },
+      },
+    },
   },
-  plugins: [require('@tailwindcss/typography')]
-}
+  plugins: [require('@tailwindcss/typography')],
+};

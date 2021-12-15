@@ -1,11 +1,11 @@
-import client from './base'
-import { CurrentUserResponseDto } from '@api-models'
+import { CurrentUserResponseDto } from '@api-models';
+import client from './base';
 
 const getCurrentUser = async (): Promise<CurrentUserResponseDto> => {
-  const response = await client.get<CurrentUserResponseDto>('api/v1/users/current')
+  const response = await client.get<CurrentUserResponseDto>('api/v1/users/current');
 
-  return response.data
-}
+  return response.data;
+};
 
-getCurrentUser.cacheKey = 'currentUser'
-export default getCurrentUser
+getCurrentUser.cacheKey = 'currentUser';
+export default getCurrentUser;

@@ -4,25 +4,25 @@ import {
   useCallback,
   useEffect,
   useRef,
-  useState
-} from 'react'
-import InputButton from './InputButton'
+  useState,
+} from 'react';
+import InputButton from './InputButton';
 
 type FormUtils = {
-  setError: (str: string) => void
-  hideError: () => void
-}
+  setError: (str: string) => void;
+  hideError: () => void;
+};
 
 type Props = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
-  error?: string
-  errorDismissTimeout?: number
-  rightButtonContent: React.ReactNode | string
-  footerContent?: (utils: FormUtils) => React.ReactNode
-  additionalContent?: React.ReactNode
-  handleSubmit: (str: string, utils: FormUtils) => Promise<void>
-  isLoading?: boolean
-  isOpen: boolean
-}
+  error?: string;
+  errorDismissTimeout?: number;
+  rightButtonContent: React.ReactNode | string;
+  footerContent?: (utils: FormUtils) => React.ReactNode;
+  additionalContent?: React.ReactNode;
+  handleSubmit: (str: string, utils: FormUtils) => Promise<void>;
+  isLoading?: boolean;
+  isOpen: boolean;
+};
 
 const OneInputForm = ({
   rightButtonContent,
@@ -35,28 +35,29 @@ const OneInputForm = ({
   isLoading,
   ...props
 }: Props) => {
-  const [value, setValue] = useState('')
-  const [error, setError] = useState(_error)
-  const [showError, setShowError] = useState(true)
-  const ref = useRef({} as { input: HTMLInputElement | null })
+  const [value, setValue] = useState('');
+  const [error, setError] = useState(_error);
+  const [showError, setShowError] = useState(true);
+  const ref = useRef({} as { input: HTMLInputElement | null });
 
   const setErrorCallback = useCallback((err: string) => {
-    setError(err)
-    setShowError(true)
-  }, [])
+    setError(err);
+    setShowError(true);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => ref.current.input?.focus(), 50)
+      setTimeout(() => ref.current.input?.focus(), 50);
 
       if (props.type === 'password') {
-        setValue('')
+        setValue('');
       }
     }
-  }, [ref, isOpen, props.type])
+  }, [ref, isOpen, props.type]);
 
-  const wrapperClass =
-    'form-main-input-wrapper' + (error && showError ? ' form-main-input-wrapper-error' : '')
+  const wrapperClass = `form-main-input-wrapper${
+    error && showError ? ' form-main-input-wrapper-error' : ''
+  }`;
 
   return (
     <div className="centered-content-block">
@@ -64,13 +65,16 @@ const OneInputForm = ({
         <div className="flex flex-col">
           <div className={wrapperClass}>
             <input
-              ref={(input) => (ref.current.input = input)}
+              ref={(input) => {
+                ref.current.input = input;
+                return input;
+              }}
               value={value}
               className="form-main-input"
               {...props}
               onChange={(e) => {
-                setShowError(false)
-                setValue(e.target.value)
+                setShowError(false);
+                setValue(e.target.value);
               }}
             />
             {additionalContent}
@@ -78,11 +82,11 @@ const OneInputForm = ({
               content={rightButtonContent}
               isLoading={isLoading}
               onClick={async () => {
-                setShowError(false)
+                setShowError(false);
                 await handleSubmit(value, {
                   setError: setErrorCallback,
-                  hideError: () => setShowError(false)
-                })
+                  hideError: () => setShowError(false),
+                });
               }}
             />
           </div>
@@ -98,8 +102,8 @@ const OneInputForm = ({
       {footerContent &&
         footerContent({ setError: setErrorCallback, hideError: () => setShowError(false) })}
     </div>
-  )
-}
+  );
+};
 
-export type { FormUtils }
-export default OneInputForm
+export type { FormUtils };
+export default OneInputForm;

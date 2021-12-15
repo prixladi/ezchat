@@ -1,10 +1,10 @@
-import client from './base'
-import { AnonymousUserCreatedResponseDto } from '@api-models'
+import { AnonymousUserCreatedResponseDto } from '@api-models';
+import client from './base';
 
 const createUserAnonymous = async (): Promise<AnonymousUserCreatedResponseDto> => {
-  const response = await client.post<AnonymousUserCreatedResponseDto>('api/v1/users/anonymous/')
+  const response = await client.post<AnonymousUserCreatedResponseDto>('api/v1/users/anonymous/');
 
-  return response.data
-}
+  return response.data;
+};
 
-export default createUserAnonymous
+export default createUserAnonymous;

@@ -1,8 +1,8 @@
-import OneInputForm from '@lib/components/OneInputForm'
-import ThemeSwitch from '@lib/components/ThemeSwitch'
-import { appName } from '@lib/constants'
-import type { NextPage } from 'next'
-import usePasswordLoginPage from '../hooks/usePasswordLoginPage'
+import OneInputForm from '@lib/components/OneInputForm';
+import ThemeSwitch from '@lib/components/ThemeSwitch';
+import { appName } from '@lib/constants';
+import type { NextPage } from 'next';
+import usePasswordLoginPage from '../hooks/usePasswordLoginPage';
 
 const PasswordLogin: NextPage = () => {
   const {
@@ -10,8 +10,17 @@ const PasswordLogin: NextPage = () => {
     login,
     usernameSelected,
     isLoading,
-    isCurrent
-  } = usePasswordLoginPage()
+    isCurrent,
+  } = usePasswordLoginPage();
+
+  const footer = () => (
+    <p>
+      Or pick{' '}
+      <button type="button" className="link" onClick={usernameSelected}>
+        different username
+      </button>
+    </p>
+  );
 
   return (
     <div className="centered-content-md">
@@ -40,17 +49,10 @@ const PasswordLogin: NextPage = () => {
             readOnly
           />
         }
-        footerContent={() => (
-          <p>
-            Or pick{' '}
-            <a className="link" onClick={usernameSelected}>
-              different username
-            </a>
-          </p>
-        )}
+        footerContent={footer}
       />
     </div>
-  )
-}
+  );
+};
 
-export default PasswordLogin
+export default PasswordLogin;

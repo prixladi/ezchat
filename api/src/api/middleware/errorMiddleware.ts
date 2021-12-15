@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import config from '../../config';
 import { logger } from '../../logging';
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 export default (err: Error, _: Request, res: Response, __: NextFunction): Response => {
   logger.error(err);
 

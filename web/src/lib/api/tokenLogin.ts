@@ -1,8 +1,8 @@
-import client from './base'
-import { TokenLoginRequestDto } from '@api-models'
+import { TokenLoginRequestDto } from '@api-models';
+import client from './base';
 
 const tokenLogin = async (dto: TokenLoginRequestDto): Promise<void> => {
-  await client.post('api/v1/auth/login/token', dto)
-}
+  await client.post('api/v1/auth/login/token', dto);
+};
 
-export default tokenLogin
+export default tokenLogin;
