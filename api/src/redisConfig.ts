@@ -1,6 +1,6 @@
-import { RedisOptions } from 'ioredis';
-import { env } from 'process';
-import R from 'ramda';
+import { RedisOptions } from 'ioredis'
+import { env } from 'process'
+import R from 'ramda'
 
 export default {
   port: R.defaultTo(6379, env.REDIS_PORT),
@@ -10,4 +10,4 @@ export default {
   reconnectOnError: () => true,
   maxRetriesPerRequest: 2,
   lazyConnect: true
-} as RedisOptions;
+} as RedisOptions

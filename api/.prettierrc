@@ -4,8 +4,8 @@
     "singleQuote": true,
     "arrowParens": "always",
     "tabWidth": 2,
-    "semi": true,
-    "trailingComma" : "all",
+    "semi": false,
+    "trailingComma" : "none",
     "overrides": [
       {
         "files": ["**/*.json"],

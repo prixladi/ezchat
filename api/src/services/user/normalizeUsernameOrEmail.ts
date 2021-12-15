@@ -1,1 +1,1 @@
-export default (str: string) => str.toLocaleLowerCase();
+export default (str: string) => str.toLocaleLowerCase()

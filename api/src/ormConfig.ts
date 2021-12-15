@@ -1,4 +1,4 @@
-import R from 'ramda';
+import R from 'ramda'
 
 export = {
   type: 'postgres',
@@ -15,6 +15,6 @@ export = {
   cli: {
     entitiesDir: 'src/entity',
     migrationsDir: 'src/migration',
-    subscribersDir: 'src/subscriber',
-  },
-};
+    subscribersDir: 'src/subscriber'
+  }
+}
