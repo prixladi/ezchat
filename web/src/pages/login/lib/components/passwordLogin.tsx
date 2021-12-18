@@ -1,5 +1,5 @@
-import OneInputForm from '@lib/components/OneInputForm';
-import ThemeSwitch from '@lib/components/ThemeSwitch';
+import OneInputForm from '@lib/components/oneInputForm';
+import ThemeSwitch from '@lib/components/themeSwitch';
 import { appName } from '@lib/constants';
 import type { NextPage } from 'next';
 import usePasswordLoginPage from '../hooks/usePasswordLoginPage';
@@ -40,15 +40,6 @@ const PasswordLogin: NextPage = () => {
         rightButtonContent="GO!"
         isLoading={isLoading}
         handleSubmit={login}
-        additionalContent={
-          <input
-            value={state.payload?.username ?? 'default'}
-            autoComplete="username"
-            type="text"
-            hidden
-            readOnly
-          />
-        }
         footerContent={footer}
       />
     </div>

@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import InputButton from './InputButton';
+import InputButton from './inputButton';
 
 type FormUtils = {
   setError: (str: string) => void;

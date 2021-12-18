@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { appName } from '@lib/constants';
-import OneInputForm from '@lib/components/OneInputForm';
-import ThemeSwitch from '@lib/components/ThemeSwitch';
+import OneInputForm from '@lib/components/oneInputForm';
+import ThemeSwitch from '@lib/components/themeSwitch';
 import useNewPasswordPage from '../hooks/useNewPasswordPage';
 
 const NewPassword: NextPage = () => {
@@ -37,15 +37,6 @@ const NewPassword: NextPage = () => {
         aria-label="new-password"
         rightButtonContent="GO!"
         handleSubmit={passwordSelected}
-        additionalContent={
-          <input
-            value={state.payload?.username ?? 'default'}
-            autoComplete="username"
-            type="text"
-            hidden
-            readOnly
-          />
-        }
         footerContent={footer}
       />
     </div>

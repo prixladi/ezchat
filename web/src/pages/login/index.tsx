@@ -3,7 +3,7 @@ import Collapse from '@lib/components/Collapse';
 import Head from 'next/head';
 import { appName } from '@lib//constants';
 import { AuthWallProgress } from '@lib/contexts/authWallContext';
-import ThemeSwitch from '@lib/components/ThemeSwitch';
+import ThemeSwitch from '@lib/components/themeSwitch';
 import { useState } from 'react';
 import { useTimeoutFn } from 'react-use';
 import Username from './lib/components/username';

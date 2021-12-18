@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 import { useMemo } from 'react';
-import { FormUtils } from '@lib/components/OneInputForm';
+import { FormUtils } from '@lib/components/oneInputForm';
 import {
   AuthWallActionType,
   AuthWallProgress,

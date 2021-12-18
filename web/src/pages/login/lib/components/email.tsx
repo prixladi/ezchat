@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
-import OneInputForm, { FormUtils } from '@lib/components/OneInputForm';
-import ThemeSwitch from '@lib/components/ThemeSwitch';
+import OneInputForm, { FormUtils } from '@lib/components/oneInputForm';
+import ThemeSwitch from '@lib/components/themeSwitch';
 import { appName } from '../../../../lib/constants';
 import useEmailPage from '../hooks/useEmailPage';
 

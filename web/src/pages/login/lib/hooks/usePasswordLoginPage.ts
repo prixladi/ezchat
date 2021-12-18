@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import api from '@lib/api';
-import { FormUtils } from '@lib/components/OneInputForm';
+import { FormUtils } from '@lib/components/oneInputForm';
 import {
   AuthWallActionType,
   AuthWallProgress,

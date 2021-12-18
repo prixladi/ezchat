@@ -18,7 +18,6 @@ const App: NextPage = () => {
         >
           LOGOUT
         </button>
-        
         <code>{JSON.stringify(data)}</code>
       </div>
     );
