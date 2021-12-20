@@ -7,36 +7,36 @@
 @import url('./links.css');
 
 @layer base {
-    h1 {
-        @apply text-4xl font-extrabold leading-tight;
-    }
-    p {
-        @apply text-lg;
-    }
-    body {
-        @apply transition-all ease-in duration-300;
-        @apply dark:bg-[url('/assets/bg-dark.png')];
-        @apply bg-[url('/assets/bg-light.png')];
-        @apply bg-no-repeat;
-        @apply bg-cover;
-        @apply bg-center;
-        @apply bg-fixed;
-    }
-    .centered-content-md {
-        @apply flex flex-col h-screen gap-8 justify-center items-center m-auto max-w-md px-10 py-5;
-        @apply lg:gap-20;
-        @apply md:gap-12;
-        @apply xshort:h-fit;
-    }
-    .centered-content-block {
-        @apply flex flex-col gap-4 text-center w-full;
-    }    
-    .spinner-wrapper {
-        @apply m-auto w-36 h-36 border-l-2 border-teal-500 rounded-full animate-spin mt-4;
-        @apply lg:mt-16;
-        @apply md:mt-8;
-    }
-    .spinner {
-        @apply flex items-center justify-center;
-    }
+  h1 {
+    @apply text-4xl font-extrabold leading-tight;
+  }
+  p {
+    @apply text-lg;
+  }
+  body {
+    @apply transition-all ease-in duration-300;
+    @apply dark:bg-[url('/assets/bg-dark.png')];
+    @apply bg-[url('/assets/bg-light.png')];
+    @apply bg-no-repeat;
+    @apply bg-cover;
+    @apply bg-center;
+    @apply bg-fixed;
+  }
+  .centered-content-md {
+    @apply flex flex-col h-screen gap-8 justify-center items-center m-auto max-w-md px-10 py-5;
+    @apply lg:gap-20;
+    @apply md:gap-12;
+    @apply xshort:h-fit;
+  }
+  .centered-content-block {
+    @apply flex flex-col gap-4 text-center w-full;
+  }
+  .spinner-wrapper {
+    @apply m-auto w-36 h-36 border-l-2 border-teal-500 rounded-full animate-spin mt-4;
+    @apply lg:mt-16;
+    @apply md:mt-8;
+  }
+  .spinner {
+    @apply flex items-center justify-center;
+  }
 }

@@ -32,7 +32,6 @@ const NewPassword: NextPage = () => {
       <OneInputForm
         isOpen={isCurrent}
         type="password"
-        autoComplete="new-password"
         placeholder="**************"
         aria-label="new-password"
         rightButtonContent="GO!"

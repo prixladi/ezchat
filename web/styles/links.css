@@ -1,10 +1,10 @@
 @tailwind base;
 
 @layer base {
-    .link {
-        @apply text-teal-500 font-bold;
-    }
-    .link:hover {
-        @apply cursor-pointer underline;
-    }
+  .link {
+    @apply text-teal-500 font-bold;
+  }
+  .link:hover {
+    @apply cursor-pointer underline;
+  }
 }

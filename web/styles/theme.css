@@ -1,11 +1,11 @@
 @tailwind base;
 
 @layer base {
-    .theme-switcher {
-        @apply h-12 w-12 text-4xl float-right;
-    }
-    .theme-switcher img {
-        @apply dark:content-[url('/assets/moon.svg')];
-        @apply content-[url('/assets/sun.svg')];
-    }
+  .theme-switcher {
+    @apply h-12 w-12 text-4xl float-right;
+  }
+  .theme-switcher img {
+    @apply dark:content-[url('/assets/moon.svg')];
+    @apply content-[url('/assets/sun.svg')];
+  }
 }

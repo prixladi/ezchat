@@ -68,6 +68,7 @@ const OneInputForm = ({
                 ref.current.input = input;
                 return input;
               }}
+              autoComplete="nope"
               value={value}
               className="form-main-input"
               {...props}

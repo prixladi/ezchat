@@ -1,6 +1,5 @@
 {
   "printWidth": 100,
-  "parser": "typescript",
   "singleQuote": true,
   "arrowParens": "always",
   "tabWidth": 2,
@@ -14,9 +13,9 @@
       }
     },
     {
-      "files": "**/*.json",
+      "files": "**/*.{ts,tsx,js,jsx}",
       "options": {
-        "parser": "json"
+        "parser": "typescript"
       }
     }
   ]

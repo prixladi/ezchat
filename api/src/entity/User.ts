@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Index,
+  OneToMany,
 } from 'typeorm';
+import ChannelUser from './ChannelUser';
 
 @Entity('users')
 @Index('UX_username', ['username'], { unique: true })
@@ -46,6 +48,9 @@ export default class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => ChannelUser, (user) => user.channel)
+  channels: ChannelUser[];
 
   static validUsernameRegex = /^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
 

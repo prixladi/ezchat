@@ -41,7 +41,11 @@ const useLoginPage = () => {
       });
     }
 
-    if (state.progress === AuthWallProgress.AUTH && !R.isNil(data) && data.hasSession) {
+    if (
+      (state.progress === AuthWallProgress.AUTH || state.progress === AuthWallProgress.BEGIN) &&
+      !R.isNil(data) &&
+      data.hasSession
+    ) {
       router.push('/app');
     }
   }, [data, state, dispatch, router]);

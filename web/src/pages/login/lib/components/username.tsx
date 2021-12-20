@@ -25,7 +25,6 @@ const Username: NextPage = () => {
       <OneInputForm
         isOpen={isCurrent}
         type="text"
-        autoComplete="username"
         placeholder="Username"
         aria-label="username"
         rightButtonContent="GO!"

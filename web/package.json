@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "yarn typescript && yarn eslint && yarn format",
     "lint:fix": "yarn typescript && yarn eslint:fix && yarn format:fix",
-    "format": "prettier --check ./**/*.{js,jsx,ts,tsx,json}",
-    "format:fix": "prettier --write ./**/*.{js,jsx,ts,tsx,json}",
+    "format": "prettier --check ./**/*.{js,jsx,ts,tsx,json,css}",
+    "format:fix": "prettier --write ./**/*.{js,jsx,ts,tsx,json,css}",
     "eslint": "next lint",
     "eslint:fix": "next lint --fix",
     "typescript": "tsc --noEmit"

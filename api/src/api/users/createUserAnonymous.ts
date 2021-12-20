@@ -12,9 +12,9 @@ export default async (req: Request, res: Response<AnonymousUserCreatedResponseDt
   await repo.insert(user);
 
   const resp = {
-    userId: user.id,
-  };
+    id: user.id,
+  } as AnonymousUserCreatedResponseDto;
 
-  req.session.userId = resp.userId;
+  req.session.userId = resp.id;
   res.status(StatusCodes.CREATED).send(resp);
 };
