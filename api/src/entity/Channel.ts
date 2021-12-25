@@ -16,7 +16,7 @@ export default class Channel {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   description?: string;
 
   @CreateDateColumn()
@@ -25,6 +25,6 @@ export default class Channel {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => ChannelUser, (user) => user.channel)
+  @OneToMany(() => ChannelUser, (e) => e.channel)
   users: ChannelUser[];
 }

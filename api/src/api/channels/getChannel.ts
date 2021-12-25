@@ -1,24 +1,13 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { getRepository } from 'typeorm';
-import { ChannelDeatailDto, GetChannelParams } from '@api-models';
-import R from 'ramda';
-import { ApiError, createApiError } from '../utils';
-import Channel from '../../entity/Channel';
+import { ChannelDeatailDto, ChannelIdParams } from '@api-models';
+import { ApiError } from '../utils';
+import { getChannelOrThrow } from './shared';
 
 export default async (
-  req: Request<{}, {}, GetChannelParams>,
+  req: Request<ChannelIdParams>,
   res: Response<ChannelDeatailDto | ApiError>,
 ) => {
-  const repo = getRepository(Channel);
-  const channel = await repo.findOne({ where: { id: req.body.id } });
-
-  if (R.isNil(channel)) {
-    res
-      .status(StatusCodes.NOT_FOUND)
-      .send(createApiError(`Unable to find channel with id '${req.body.id}'.`));
-    return;
-  }
-
+  const channel = await getChannelOrThrow(req.params.id, res);
   res.status(StatusCodes.CREATED).send(channel);
 };

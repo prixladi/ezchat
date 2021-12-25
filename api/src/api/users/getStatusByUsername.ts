@@ -12,8 +12,7 @@ export default async (
   const valid = userService.validateUsername(req.params.username);
   const normalizedUsername = userService.normalizeUsernameOrEmail(req.params.username);
 
-  const repo = getRepository(User);
-  const count = await repo.count({ where: { normalizedUsername } });
+  const count = await getRepository(User).count({ where: { normalizedUsername } });
 
   const resp = {
     used: count > 0,

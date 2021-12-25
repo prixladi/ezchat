@@ -5,12 +5,10 @@ import { ChannelPreviewDto } from '@api-models';
 import User from '../../entity/User';
 
 export default async (req: Request, res: Response<ChannelPreviewDto[]>) => {
-  const repo = getRepository(User);
-
-  const user = await repo.findOne({
+  const user = await getRepository(User).findOne({
     where: { id: req.session.userId },
     relations: ['channels', 'channels.channel'],
   });
 
-  res.status(StatusCodes.CREATED).send(user.channels.map((x) => x.channel));
+  res.status(StatusCodes.OK).send(user.channels.map((x) => x.channel));
 };

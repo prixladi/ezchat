@@ -1,6 +1,9 @@
 import checkSession from './checkSession';
+import createChannel from './createChannel';
 import createUser from './createUser';
 import createUserAnonymous from './createUserAnonymous';
+import getChannel from './getChannel';
+import getCurrentChannels from './getCurrentChannels';
 import getCurrentUser from './getCurrentUser';
 import getStatusByEmail from './getStatusByEmail';
 import getStatusByUsername from './getStatusByUsername';
@@ -18,6 +21,10 @@ const api = {
   tokenLogin,
   logout,
   checkSession,
+
+  createChannel,
+  getCurrentChannels,
+  getChannel,
 };
 
 export default api;

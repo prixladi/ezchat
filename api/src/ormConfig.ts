@@ -1,4 +1,5 @@
 import R from 'ramda';
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 export = {
   type: 'postgres',
@@ -17,4 +18,4 @@ export = {
     migrationsDir: 'src/migration',
     subscribersDir: 'src/subscriber',
   },
-};
+} as PostgresConnectionOptions;

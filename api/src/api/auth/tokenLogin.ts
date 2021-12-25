@@ -18,9 +18,8 @@ export default async (req: Request<{}, {}, TokenLoginRequestDto>, res: Response)
 
     return;
   }
-
-  const repo = getRepository(User);
-  const user = await repo.findOne({ where: { id: oneOfToken.userId } });
+  
+  const user = await getRepository(User).findOne({ where: { id: oneOfToken.userId } });
 
   req.session.userId = user.id;
   res.sendStatus(StatusCodes.NO_CONTENT);

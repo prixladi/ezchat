@@ -56,11 +56,16 @@ export type EmailStatusResponseDto = {
 
 // Channels
 
-export type GetChannelParams = {
+export type ChannelIdParams = {
   id: string;
 };
 
 export type CreateChannelRequestDto = {
+  name: string;
+  description?: string;
+};
+
+export type UpdateChannelRequestDto = {
   name: string;
   description?: string;
 };

@@ -9,8 +9,7 @@ import authService from '../../services/auth';
 export default async (req: Request<{}, {}, PasswordLoginRequestDto>, res: Response) => {
   const normalizedUsername = userService.normalizeUsernameOrEmail(req.body.username);
 
-  const repo = getRepository(User);
-  const user = await repo.findOne({ where: { normalizedUsername } });
+  const user = await getRepository(User).findOne({ where: { normalizedUsername } });
 
   const passwordMatch = authService.comparePasswords(req.body.password, {
     salt: user.passwordSalt,

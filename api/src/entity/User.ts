@@ -49,7 +49,7 @@ export default class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => ChannelUser, (user) => user.channel)
+  @OneToMany(() => ChannelUser, (e) => e.user)
   channels: ChannelUser[];
 
   static validUsernameRegex = /^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;

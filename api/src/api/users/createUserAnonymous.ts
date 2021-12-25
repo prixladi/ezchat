@@ -8,8 +8,7 @@ import userService from '../../services/user';
 export default async (req: Request, res: Response<AnonymousUserCreatedResponseDto>) => {
   const user = userService.createAnonymousUser();
 
-  const repo = getRepository(User);
-  await repo.insert(user);
+  await getRepository(User).insert(user);
 
   const resp = {
     id: user.id,

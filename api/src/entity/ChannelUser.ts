@@ -14,11 +14,11 @@ export default class ChannelUser {
   @Column()
   channelId: string;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (e) => e.id)
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  @ManyToOne(() => Channel, (channel) => channel.users)
+  @ManyToOne(() => Channel, (e) => e.users, { cascade: ['insert'] })
   @JoinColumn({ name: 'channelId' })
   channel: Channel;
 }
