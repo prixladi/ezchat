@@ -14,21 +14,19 @@ type FormUtils = {
 };
 
 type Props = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
-  error?: string;
   errorDismissTimeout?: number;
+  prefix?: string;
   rightButtonContent: React.ReactNode | string;
   footerContent?: (utils: FormUtils) => React.ReactNode;
   additionalContent?: React.ReactNode;
   handleSubmit: (str: string, utils: FormUtils) => Promise<void>;
   isLoading?: boolean;
-  isOpen: boolean;
 };
 
 const OneInputForm = ({
+  prefix,
   rightButtonContent,
   handleSubmit,
-  isOpen,
-  error: _error,
   errorDismissTimeout,
   additionalContent,
   footerContent,
@@ -36,7 +34,7 @@ const OneInputForm = ({
   ...props
 }: Props) => {
   const [value, setValue] = useState('');
-  const [error, setError] = useState(_error);
+  const [error, setError] = useState(null as unknown);
   const [showError, setShowError] = useState(true);
   const ref = useRef({} as { input: HTMLInputElement | null });
 
@@ -46,14 +44,8 @@ const OneInputForm = ({
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => ref.current.input?.focus(), 50);
-
-      if (props.type === 'password') {
-        setValue('');
-      }
-    }
-  }, [ref, isOpen, props.type]);
+    setTimeout(() => ref.current.input?.focus(), 50);
+  }, [ref]);
 
   const wrapperClass = 'form-main-input-wrapper';
   const errorWrapperClass = 'form-main-input-wrapper form-main-input-wrapper-error';
@@ -63,6 +55,7 @@ const OneInputForm = ({
       <form>
         <div className="flex flex-col">
           <div className={error && showError ? errorWrapperClass : wrapperClass}>
+            {prefix && <span className="form-main-input-prefix">{prefix}</span>}
             <input
               ref={(input) => {
                 ref.current.input = input;

@@ -1,16 +1,10 @@
-import { CurrentUserResponseDto } from '@api-models';
+import { CurrentUserDto } from '@api-models';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { getRepository } from 'typeorm';
-import User from '../../entity/User';
 
-export default async (req: Request, res: Response<CurrentUserResponseDto>) => {
-  const user = await getRepository(User).findOne({ where: { id: req.session.userId } });
-
+export default (req: Request, res: Response<CurrentUserDto>) => {
   res.status(StatusCodes.OK).send({
-    id: user.id,
-    email: user.email,
-    username: user.username,
-    isAnonymous: user.isAnonymous,
+    id: req.session.userId,
+    username: req.session.username,
   });
 };

@@ -4,20 +4,25 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  Index,
   OneToMany,
 } from 'typeorm';
-import ChannelUser from './ChannelUser';
+import Message from './Message';
 
 @Entity('channels')
+@Index('UX_channel_code', ['code'], { unique: true })
 export default class Channel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  name: string;
-
   @Column({ nullable: true })
-  description?: string;
+  name?: string;
+
+  @Column()
+  code: string;
+
+  @OneToMany(() => Message, (e) => e.channelId, { cascade: ['insert'] })
+  messages: Message[];
 
   @CreateDateColumn()
   createdAt: Date;
@@ -25,6 +30,5 @@ export default class Channel {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => ChannelUser, (e) => e.channel)
-  users: ChannelUser[];
+  static validCodeRegex = /^[a-zA-Z0-9_-]*$/;
 }

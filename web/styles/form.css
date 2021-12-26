@@ -6,11 +6,14 @@
   }
 
   .form-main-input {
-    @apply appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none font-bold;
+    @apply appearance-none bg-transparent border-none w-full text-gray-700 mr-1 py-1 px-1 leading-tight focus:outline-none font-bold;
     @apply dark:text-gray-300;
   }
   .form-main-input-wrapper {
     @apply flex w-full border-b border-teal-500 py-2 form-transition;
+  }
+  .form-main-input-prefix {
+    @apply flex items-center font-bold opacity-30 dark:opacity-60 ;
   }
   .form-main-input-wrapper-error {
     @apply border-red-700 form-transition;

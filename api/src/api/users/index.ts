@@ -1,19 +1,11 @@
 import { Router } from 'express';
 import asyncHandler from 'express-async-handler';
-import getStatusByUsername from './getStatusByUsername';
-import createUserAnonymous from './createUserAnonymous';
-import createUser from './createUser';
-import authMiddleware from '../middleware/authMiddleware';
+import createUser from './setUsername';
 import getCurrentUser from './getCurrentUser';
-import getStatusByEmail from './getStatusByEmail';
 
 const router = Router();
 
-router.get('/by-username/:username', asyncHandler(getStatusByUsername));
-router.get('/by-email/:email', asyncHandler(getStatusByEmail));
-router.get('/current', authMiddleware, asyncHandler(getCurrentUser));
-
-router.post('/anonymous', asyncHandler(createUserAnonymous));
-router.post('/', asyncHandler(createUser));
+router.get('/current', asyncHandler(getCurrentUser));
+router.put('/current/username', asyncHandler(createUser));
 
 export default router;
