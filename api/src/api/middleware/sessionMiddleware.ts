@@ -10,7 +10,6 @@ export default asyncHandler(async (req: Request, _: Response, next: NextFunction
     await getRepository(User).insert(user);
 
     req.session.userId = user.id;
-    return;
   }
 
   return next();

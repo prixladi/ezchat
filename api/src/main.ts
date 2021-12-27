@@ -7,22 +7,26 @@ import buildApi from './api';
 import errorMiddleware from './api/middleware/errorMiddleware';
 import session from './session';
 import { logger, loggingMiddleware } from './logging';
+import socket from './socket';
 
 const main = async () => {
   await createDbConnection(config.database);
   const redis = createRedisConnection(config.redis);
 
   const app = express();
+  const sessionMiddleware = session(redis);
 
   app.use(cors({ origin: true, credentials: true }));
-  app.use(session(redis));
+  app.use(sessionMiddleware);
 
   app.use(express.json());
   app.use(loggingMiddleware);
   app.use(buildApi(redis));
   app.use(errorMiddleware);
 
-  app.listen(config.app.port, () => {
+  const server = socket(app, sessionMiddleware);
+
+  server.listen(config.app.port, () => {
     logger.info(`Listening to requests on http://localhost:${config.app.port}`);
   });
 };

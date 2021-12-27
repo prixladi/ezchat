@@ -30,4 +30,20 @@
   button.form-main-input-button {
     @apply text-gray-700 rounded-full bg-teal-500 py-1 px-2 font-bold;
   }
+
+  .bottom-bar-input {
+    @apply font-semibold w-full
+    bg-transparent outline-none 
+    mr-auto
+    text-gray-500  dark:text-gray-400 placeholder-gray-500
+    cursor-text;
+  }
+
+  .bottom-bar {
+    @apply flex flex-row items-center justify-between 
+    fixed bottom-0 
+    rounded-lg shadow-lg 
+    bg-gray-400 dark:bg-gray-600 px-2
+    h-12;
+  }
 }

@@ -29,6 +29,7 @@
       "ramda": "^0.27.1",
       "rate-limit-redis": "^2.1.0",
       "reflect-metadata": "^0.1.10",
+      "socket.io": "^4.4.0",
       "typeorm": "^0.2.41",
       "uuid": "^8.3.2",
       "winston": "^3.3.3"
