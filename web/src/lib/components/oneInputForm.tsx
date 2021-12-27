@@ -11,13 +11,12 @@ import InputButton from './inputButton';
 type FormUtils = {
   setError: (str: string) => void;
   hideError: () => void;
+  clearInput: () => void;
 };
 
 type Props = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
-  errorDismissTimeout?: number;
   prefix?: string;
   rightButtonContent: React.ReactNode | string;
-  footerContent?: (utils: FormUtils) => React.ReactNode;
   additionalContent?: React.ReactNode;
   handleSubmit: (str: string, utils: FormUtils) => Promise<void>;
   isLoading?: boolean;
@@ -27,9 +26,7 @@ const OneInputForm = ({
   prefix,
   rightButtonContent,
   handleSubmit,
-  errorDismissTimeout,
   additionalContent,
-  footerContent,
   isLoading,
   ...props
 }: Props) => {
@@ -49,6 +46,12 @@ const OneInputForm = ({
 
   const wrapperClass = 'form-main-input-wrapper';
   const errorWrapperClass = 'form-main-input-wrapper form-main-input-wrapper-error';
+
+  const utils = {
+    setError: setErrorCallback,
+    hideError: () => setShowError(false),
+    clearInput: () => setValue(''),
+  };
 
   return (
     <div className="centered-content-block">
@@ -76,10 +79,7 @@ const OneInputForm = ({
               isLoading={isLoading}
               onClick={async () => {
                 setShowError(false);
-                await handleSubmit(value, {
-                  setError: setErrorCallback,
-                  hideError: () => setShowError(false),
-                });
+                await handleSubmit(value, utils);
               }}
             />
           </div>
@@ -88,12 +88,10 @@ const OneInputForm = ({
               error && showError ? 'form-main-input-error' : 'form-main-input-error opacity-0'
             }
           >
-            {error || <span className="invisible">dummy</span>}
+            {showError && error}
           </p>
         </div>
       </form>
-      {footerContent &&
-        footerContent({ setError: setErrorCallback, hideError: () => setShowError(false) })}
     </div>
   );
 };

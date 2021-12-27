@@ -12,9 +12,9 @@ import {
 } from '../lib/constants';
 
 const getRandomCode = () => {
-  var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var result = '';
-  for (var i = 0; i < 8; i++) {
+  const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < 8; i += 1) {
     result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
   }
   return result;
@@ -46,7 +46,7 @@ const Home: NextPage = () => {
       return;
     }
 
-    router.push(R.isNil(code) || code == '' ? getRandomCode() : code);
+    router.push(R.isNil(code) || code === '' ? getRandomCode() : code);
   };
 
   return (
@@ -55,7 +55,7 @@ const Home: NextPage = () => {
       <div className="centered-content-block">
         <div>
           <h1>{appName}</h1>
-          <span className="opacity-50 font-bold">Simple chat, almost simplistic</span>
+          <span className="description">Simple chat, almost simplistic</span>
         </div>
         <p>
           Create new channel or join existing. You can also leave channel empty to generate random

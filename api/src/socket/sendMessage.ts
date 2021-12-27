@@ -1,14 +1,10 @@
+import { CreateMessageData } from '@api-models';
 import R from 'ramda';
 import { Server, Socket } from 'socket.io';
 import { getRepository } from 'typeorm';
 import Channel from '../entity/Channel';
 import Message from '../entity/Message';
 import User from '../entity/User';
-
-type CreateMessageData = {
-  channelCode: string;
-  content?: string;
-};
 
 export default (io: Server, socket: Socket, userId: string) => async (data: CreateMessageData) => {
   if (!R.any((x) => x === data.channelCode, Array.from(socket.rooms))) {

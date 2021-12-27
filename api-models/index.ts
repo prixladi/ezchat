@@ -18,3 +18,21 @@ export type ChannelDto = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+// socket
+
+export type CreateMessageData = {
+  channelCode: string;
+  content?: string;
+};
+
+export type MessageRecievedData = {
+  id: string;
+  content?: string;
+  channelCode: string;
+  createdAt: Date;
+  user: {
+    id: string;
+    name: string;
+  };
+};

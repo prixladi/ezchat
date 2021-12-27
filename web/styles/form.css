@@ -13,7 +13,7 @@
     @apply flex w-full border-b border-teal-500 py-2 form-transition;
   }
   .form-main-input-prefix {
-    @apply flex items-center font-bold opacity-30 dark:opacity-60 ;
+    @apply flex items-center font-bold opacity-30 dark:opacity-60;
   }
   .form-main-input-wrapper-error {
     @apply border-red-700 form-transition;
@@ -32,18 +32,9 @@
   }
 
   .bottom-bar-input {
-    @apply font-semibold w-full
-    bg-transparent outline-none 
-    mr-auto
-    text-gray-500  dark:text-gray-400 placeholder-gray-500
-    cursor-text;
+    @apply font-semibold w-full bg-transparent outline-none mr-autotext-gray-500  dark:text-gray-400 placeholder-gray-500 cursor-text;
   }
-
   .bottom-bar {
-    @apply flex flex-row items-center justify-between 
-    fixed bottom-0 
-    rounded-lg shadow-lg 
-    bg-gray-400 dark:bg-gray-600 px-2
-    h-12;
+    @apply flex flex-row items-center justify-between fixed bottom-0 rounded-lg shadow-lg bg-gray-400 dark:bg-gray-600 px-2 h-12;
   }
 }
