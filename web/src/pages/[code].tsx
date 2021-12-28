@@ -65,7 +65,7 @@ const Channel: NextPage = () => {
     );
   }
 
-  return <Chat channel={channel} />;
+  return <Chat channel={channel} currentUser={user} />;
 };
 
 export default Channel;

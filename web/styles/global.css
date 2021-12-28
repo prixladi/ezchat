@@ -2,9 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('./form.css');
-@import url('./theme.css');
-@import url('./links.css');
+@import './chat.css';
+@import './form.css';
+@import './theme.css';
+@import './links.css';
 
 @layer base {
   h1 {
@@ -45,33 +46,14 @@
   .description {
     @apply opacity-50 font-bold;
   }
-  .chat-bubble {
-    @apply mr-4 col-span-12 dark:bg-slate-700 bg-slate-300 border-opacity-80 p-1 rounded-xl relative border-2 border-black dark:border-slate-700;
-  }
-  .chat-bubble::before {
-    content: '';
-    position: absolute;
-    left: -5px;
-    top: 9px;
-    width: 7px;
-    height: 7px;
-    background: inherit;
-    border-bottom: inherit;
-    border-left: inherit;
-    -moz-transform: rotate(47deg);
-    -ms-transform: rotate(47deg);
-    -webkit-transform: rotate(47deg);
-    transform: rotate(47deg);
-  }
 
   ::-webkit-scrollbar {
-    @apply w-2;
+    @apply w-1;
   }
   ::-webkit-scrollbar-track {
     @apply bg-transparent;
   }
   ::-webkit-scrollbar-thumb {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.9);
-    @apply bg-zinc-50;
+    @apply bg-zinc-500;
   }
 }

@@ -1,0 +1,39 @@
+@tailwind base;
+
+@layer base {
+  .chat-bubble,
+  .chat-bubble-cr {
+    @apply col-span-12 dark:bg-slate-700 bg-slate-300 border-opacity-80 p-1 rounded-xl relative border-2 border-black dark:border-slate-700;
+    @apply max-w-md;
+  }
+  .chat-bubble::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 9px;
+    width: 7px;
+    height: 7px;
+    background: inherit;
+    border-bottom: inherit;
+    border-left: inherit;
+    -moz-transform: rotate(47deg);
+    -ms-transform: rotate(47deg);
+    -webkit-transform: rotate(47deg);
+    transform: rotate(47deg);
+  }
+  .chat-bubble-cr::before {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 9px;
+    width: 7px;
+    height: 7px;
+    background: inherit;
+    border-top: inherit;
+    border-right: inherit;
+    -moz-transform: rotate(43deg);
+    -ms-transform: rotate(43deg);
+    -webkit-transform: rotate(43deg);
+    transform: rotate(43deg);
+  }
+}
