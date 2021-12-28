@@ -24,7 +24,7 @@ const useChatMessaging = (channel: ChannelDto): ChatMessaging => {
     isFetchingNextPage,
   } = useInfiniteQuery(
     api.getChannelMessages.cacheKey(channel.code),
-    ({ pageParam = 0 }) => api.getChannelMessages(channel.code, pageParam, 20),
+    ({ pageParam = 0 }) => api.getChannelMessages(channel.code, pageParam, 35),
     {
       refetchOnWindowFocus: false,
       refetchOnMount: false,

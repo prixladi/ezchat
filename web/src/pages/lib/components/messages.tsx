@@ -1,20 +1,29 @@
-import { CurrentUserDto, MessageRecievedData } from '@api-models';
+import { ChannelDto, CurrentUserDto, MessageRecievedData } from '@api-models';
 import { encode } from '@lib/chatTextTransform';
 import * as R from 'ramda';
 import clsx from 'clsx';
 import { ChatMessaging } from '../hooks/useChatMessaging';
 import InfiniteScroll from '@lib/components/infiniteScroll';
-import useAvatar from '../hooks/useAvatar';
+import ChatUserPopover from './chatUserPopover';
+
+type BeggingMessageProps = {
+  channel: ChannelDto;
+};
+
+const BeggingMessage: React.FC<BeggingMessageProps> = ({ channel }) => (
+  <div className="text-center text-lg mt-2 font-extrabold opacity-50 mb-auto text-slate-800 dark:text-slate-300">
+    {new Date(channel.createdAt).toLocaleString()} is begining of conversation here
+  </div>
+);
+
+const Loading = () => <div className="text-center font-extrabold text-xl">Loading...</div>;
 
 type MessageBlockProps = {
   messageGroup: MessageRecievedData[];
   currentUser: CurrentUserDto;
 };
 
-const Loading = () => <div className="text-center font-extrabold text-xl">Loading...</div>;
-
 const MessageBlock: React.FC<MessageBlockProps> = ({ messageGroup, currentUser }) => {
-  const { getAvatarColor, getAvatarLetter } = useAvatar();
   const user = messageGroup[0].user;
   const isCurrentUserMessage = currentUser.id === user.id;
 
@@ -24,18 +33,7 @@ const MessageBlock: React.FC<MessageBlockProps> = ({ messageGroup, currentUser }
         'ml-auto': isCurrentUserMessage,
       })}
     >
-      <div
-        className={clsx(
-          'order-2 rounded-full border-2 dark:text-black border-gray-900 px-1 w-10 h-8 text-center p-1 text-lg font-extrabold pb-8 col-span-1 min-w-40',
-          getAvatarColor(user.id),
-          {
-            'order-1': !isCurrentUserMessage,
-            'order-2': isCurrentUserMessage,
-          },
-        )}
-      >
-        {getAvatarLetter(user.username)}
-      </div>
+      <ChatUserPopover user={user} isCurrentUserMessage={isCurrentUserMessage} />
       <span
         className={clsx({
           'chat-bubble-cr order-1': isCurrentUserMessage,
@@ -58,9 +56,10 @@ const MessageBlock: React.FC<MessageBlockProps> = ({ messageGroup, currentUser }
 type Props = {
   messaging: ChatMessaging;
   currentUser: CurrentUserDto;
+  channel: ChannelDto;
 };
 
-const Messages: React.FC<Props> = ({ messaging, currentUser }) => {
+const Messages: React.FC<Props> = ({ messaging, currentUser, channel }) => {
   if (R.isNil(messaging.messages)) {
     return (
       <div className="pt-4">
@@ -89,15 +88,18 @@ const Messages: React.FC<Props> = ({ messaging, currentUser }) => {
       {messaging.messages.length === 0 && messaging.isFetching ? (
         <Loading />
       ) : (
-        R.map((messageGroup) => {
-          return (
-            <MessageBlock
-              key={`gr-${messageGroup[0].id}`}
-              messageGroup={messageGroup}
-              currentUser={currentUser}
-            />
-          );
-        }, grouped)
+        <>
+          {R.map((messageGroup) => {
+            return (
+              <MessageBlock
+                key={`gr-${messageGroup[0].id}`}
+                messageGroup={messageGroup}
+                currentUser={currentUser}
+              />
+            );
+          }, grouped)}
+         {!messaging.hasNextPage && <BeggingMessage channel={channel} />}
+        </>
       )}
     </InfiniteScroll>
   );

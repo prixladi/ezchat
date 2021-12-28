@@ -26,7 +26,7 @@ const Chat: React.FC<Props> = ({ channel, currentUser }) => {
           </div>
         </div>
       </div>
-      <Messages messaging={messaging} currentUser={currentUser} />
+      <Messages messaging={messaging} currentUser={currentUser} channel={channel} />
       <div className="mt-auto">
         <OneInputForm
           type="text"
