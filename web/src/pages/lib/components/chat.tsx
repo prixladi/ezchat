@@ -22,7 +22,7 @@ const Chat: React.FC<Props> = ({ channel, currentUser }) => {
             <h1>
               Channel {R.isNil(channel.name) ? '' : `${channel.name} - `} {channel.code}
             </h1>
-            <span className="description">Logged in as '{currentUser.username}'</span>
+            <span className="description">Logged in as &apos;{currentUser.username}&apos;</span>
           </div>
         </div>
       </div>

@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { getRepository } from 'typeorm';
 import { ChannelDto, CheckChannelParams } from '@api-models';
-import Channel from '../../entity/Channel';
 import R from 'ramda';
+import Channel from '../../entity/Channel';
 import channelService from '../../services/channel';
 import { ApiError, createApiError } from '../utils';
 

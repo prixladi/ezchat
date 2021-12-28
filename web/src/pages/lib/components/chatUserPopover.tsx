@@ -13,12 +13,13 @@ type Props = {
 
 const ChatUserPopover: React.FC<Props> = ({ user }) => {
   const { getAvatarColor, getAvatarLetter } = useAvatar();
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const refDiv = useRef(null);
 
   return (
     <>
       <button
+        type="button"
         onClick={() => setIsOpen(true)}
         className={clsx(
           'order-2 rounded-full border-2 dark:text-black border-gray-900 px-1 w-10 h-8 text-center p-1 text-lg font-extrabold pb-8 col-span-1 min-w-40',
@@ -65,7 +66,10 @@ const ChatUserPopover: React.FC<Props> = ({ user }) => {
                 className=" w-fit inline-block p-6 my-8 overflow-hidden text-left 
                 align-middle h-fit transition-all transform rounded-2xl"
               >
-                <Dialog.Title as="h3" className="text-lg md:text-4xl lg:text-6xl font-extrabold leading-6 text-gray-900">
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg md:text-4xl lg:text-6xl font-extrabold leading-6 text-gray-900"
+                >
                   {user.username}
                 </Dialog.Title>
               </div>

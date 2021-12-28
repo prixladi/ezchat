@@ -1,4 +1,4 @@
-export default {
+const table = {
   ':D': '😄',
   ':-D': '😄',
   ':,': '🙂',
@@ -17,3 +17,5 @@ export default {
   '</3': '💔',
   '<3': '❤️',
 };
+
+export default table;

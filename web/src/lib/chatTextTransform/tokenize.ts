@@ -32,23 +32,19 @@ const createToken = (str: string): Token => {
   };
 };
 
-export default (str: string): Tokenized => {
+const tokenize = (str: string): Tokenized => {
   const tokens: Tokenized = [];
 
-  let inSpace = true;
   let currentToken = '';
 
   for (let i = 0; i < str.length; i += 1) {
     if (str[i] === ' ') {
-      if (currentToken != '') {
+      if (currentToken !== '') {
         tokens.push(createToken(currentToken));
         currentToken = '';
       }
-
-      inSpace = true;
     } else {
       currentToken += str[i];
-      inSpace = false;
     }
   }
 
@@ -56,3 +52,6 @@ export default (str: string): Tokenized => {
 
   return tokens;
 };
+
+export type { Token };
+export default tokenize;

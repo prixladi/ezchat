@@ -21,7 +21,7 @@ export default class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
-  
+
   @OneToMany(() => Message, (e) => e.user, { cascade: ['insert'] })
   messages: Message[];
 

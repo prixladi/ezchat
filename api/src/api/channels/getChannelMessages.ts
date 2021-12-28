@@ -2,16 +2,16 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { getRepository } from 'typeorm';
 import { GetChannelMesaggesParams, GetChannelMesaggesQuery, MessagesDto } from '@api-models';
+import R from 'ramda';
 import Channel from '../../entity/Channel';
 import Message from '../../entity/Message';
-import R from 'ramda';
 import { ApiError, createApiError } from '../utils';
 
 export default async (
   req: Request<GetChannelMesaggesParams, {}, {}, GetChannelMesaggesQuery>,
   res: Response<MessagesDto | ApiError>,
 ) => {
-  let channel = await getRepository(Channel).findOne({
+  const channel = await getRepository(Channel).findOne({
     where: { code: req.params.code },
   });
 

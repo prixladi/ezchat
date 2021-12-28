@@ -20,7 +20,7 @@ export default (app: Express, sessionMiddleware: express.RequestHandler): http.S
     sessionMiddleware(req, res, next as express.NextFunction);
   });
 
-  io.on('connection', function (socket) {
+  io.on('connection', (socket) => {
     const req = socket.request as express.Request;
     logger.info(`User with id '${req.session.userId}' connected to socket.`);
 

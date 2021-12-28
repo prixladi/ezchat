@@ -2,17 +2,17 @@ import { ChannelDto, CurrentUserDto, MessageRecievedData } from '@api-models';
 import { encode } from '@lib/chatTextTransform';
 import * as R from 'ramda';
 import clsx from 'clsx';
-import { ChatMessaging } from '../hooks/useChatMessaging';
 import InfiniteScroll from '@lib/components/infiniteScroll';
+import { ChatMessaging } from '../hooks/useChatMessaging';
 import ChatUserPopover from './chatUserPopover';
 
-type BeggingMessageProps = {
+type BeginningMessageProps = {
   channel: ChannelDto;
 };
 
-const BeggingMessage: React.FC<BeggingMessageProps> = ({ channel }) => (
+const BeginningMessage: React.FC<BeginningMessageProps> = ({ channel }) => (
   <div className="text-center text-lg mt-2 font-extrabold opacity-50 mb-auto text-slate-800 dark:text-slate-300">
-    {new Date(channel.createdAt).toLocaleString()} is begining of conversation here
+    {new Date(channel.createdAt).toLocaleString()} is beginning of conversation here
   </div>
 );
 
@@ -24,7 +24,7 @@ type MessageBlockProps = {
 };
 
 const MessageBlock: React.FC<MessageBlockProps> = ({ messageGroup, currentUser }) => {
-  const user = messageGroup[0].user;
+  const { user } = messageGroup[0];
   const isCurrentUserMessage = currentUser.id === user.id;
 
   return (
@@ -43,7 +43,7 @@ const MessageBlock: React.FC<MessageBlockProps> = ({ messageGroup, currentUser }
         <span className="flex flex-col-reverse">
           {R.map(
             (a) => (
-              <span key={a.id}>{encode(a.content)}</span>
+              <span key={`text-${a.id}`}>{encode(a.content, a.id)}</span>
             ),
             messageGroup,
           )}
@@ -78,8 +78,8 @@ const Messages: React.FC<Props> = ({ messaging, currentUser, channel }) => {
   return (
     <InfiniteScroll
       dataLength={messaging.messages.length}
-      inverse={true}
-      next={async () => await messaging.fetchNextPage()}
+      inverse
+      next={async () => messaging.fetchNextPage()}
       hasMore={messaging.hasNextPage}
       loader={<Loading />}
       height="100%"
@@ -89,16 +89,17 @@ const Messages: React.FC<Props> = ({ messaging, currentUser, channel }) => {
         <Loading />
       ) : (
         <>
-          {R.map((messageGroup) => {
-            return (
+          {R.map(
+            (messageGroup) => (
               <MessageBlock
                 key={`gr-${messageGroup[0].id}`}
                 messageGroup={messageGroup}
                 currentUser={currentUser}
               />
-            );
-          }, grouped)}
-         {!messaging.hasNextPage && <BeggingMessage channel={channel} />}
+            ),
+            grouped,
+          )}
+          {!messaging.hasNextPage && <BeginningMessage channel={channel} />}
         </>
       )}
     </InfiniteScroll>

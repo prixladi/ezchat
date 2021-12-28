@@ -30,7 +30,7 @@ const useChatMessaging = (channel: ChannelDto): ChatMessaging => {
       refetchOnMount: false,
       refetchOnReconnect: false,
       staleTime: Infinity, // 24hrs
-      getNextPageParam: (lastPage, _) =>
+      getNextPageParam: (lastPage) =>
         lastPage.total > lastPage.pageSize * lastPage.page + lastPage.data.length
           ? R.inc(lastPage.page)
           : undefined,

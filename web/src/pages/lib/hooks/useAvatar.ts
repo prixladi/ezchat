@@ -25,13 +25,10 @@ const colors = [
 ];
 
 const useAvatarColor = () => {
-  const getAvatarColor = useCallback(
-    (id: string) => {
-      const hash = R.reduce((acc, cur) => acc + cur.charCodeAt(0), 0, id.split(''));
-      return colors[hash % colors.length];
-    },
-    [colors],
-  );
+  const getAvatarColor = useCallback((id: string) => {
+    const hash = R.reduce((acc, cur) => acc + cur.charCodeAt(0), 0, id.split(''));
+    return colors[hash % colors.length];
+  }, []);
 
   const getAvatarLetter = useCallback(
     (username?: string) =>

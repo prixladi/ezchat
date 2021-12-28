@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component, ReactNode, CSSProperties } from 'react';
 import { throttle } from 'throttle-debounce';
 
@@ -91,16 +92,24 @@ export default class InfiniteScroll extends Component<Props, State> {
   }
 
   private throttledOnScrollListener: (e: MouseEvent) => void;
+
   private _scrollableNode: HTMLElement | undefined | null;
+
   private el: HTMLElement | undefined | (Window & typeof globalThis);
+
   private _infScroll: HTMLDivElement | undefined;
+
   private lastScrollTop = 0;
+
   private actionTriggered = false;
+
   private _pullDown: HTMLDivElement | undefined;
 
   // variables to keep track of pull down behaviour
   private startY = 0;
+
   private currentY = 0;
+
   private dragging = false;
 
   // will be populated in componentDidMount
@@ -386,3 +395,4 @@ export default class InfiniteScroll extends Component<Props, State> {
     );
   }
 }
+/* eslint-enable */
