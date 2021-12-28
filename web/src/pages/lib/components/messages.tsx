@@ -42,12 +42,12 @@ const Messages: React.FC<Props> = ({ data, currentUser }) => {
     return null;
   }
 
-  const grouped = R.reverse(R.groupWith(
+  const grouped = R.groupWith(
     (a, b) =>
       a.user.id === b.user.id &&
       Math.abs(new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) < 1000 * 60 * 20,
     data,
-  ));
+  );
 
   return (
     <div className="overflow-auto rounded-xl h-full flex flex-col-reverse gap-6 mt-4 px-2">
@@ -80,7 +80,7 @@ const Messages: React.FC<Props> = ({ data, currentUser }) => {
                 'chat-bubble order-2': currentUser.id !== user.id,
               })}
             >
-              <span className="flex flex-col">
+              <span className="flex flex-col-reverse">
                 {R.map(
                   (a) => (
                     <span key={a.id}>{encode(a.content)}</span>

@@ -4,24 +4,34 @@ import { FormUtils } from '@lib/components/oneInputForm';
 import useSocket from '@lib/hooks/useSocket';
 import * as R from 'ramda';
 import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 
 type Return = {
   messages?: MessageRecievedData[];
   sendMessage: (value: string, { clearInput, setError }: FormUtils) => Promise<void>;
+  fetchNextPage: () => Promise<any>;
+  hasNextPage: boolean;
+  isFetching: boolean;
 };
 
 const useChatMessaging = (channel: ChannelDto): Return => {
   const { socket, connected } = useSocket();
-  const { data: messages } = useQuery(
+  const {
+    data: messages,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+  } = useInfiniteQuery(
     api.getChannelMessages.cacheKey(channel.code),
-    () => api.getChannelMessages(channel.code),
+    ({ pageParam = 0 }) => api.getChannelMessages(channel.code, pageParam, 20),
     {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
       refetchOnReconnect: false,
       staleTime: Infinity, // 24hrs
-      keepPreviousData:
+      getNextPageParam: (lastPage, _) =>
+        lastPage.total >= lastPage.pageSize * lastPage.page + lastPage.data.length,
     },
   );
   const [data, setData] = useState([] as MessageRecievedData[]);
@@ -29,7 +39,7 @@ const useChatMessaging = (channel: ChannelDto): Return => {
   useEffect(() => {
     const messageRecieved = (x: MessageRecievedData) => {
       if (x.channelCode === channel.code) {
-        setData((p) => [...p, x]);
+        setData((p) => [x, ...p]);
       }
     };
 
@@ -60,8 +70,13 @@ const useChatMessaging = (channel: ChannelDto): Return => {
   };
 
   return {
-    messages: R.isNil(messages) ? undefined : [...messages.data, ...data],
+    messages: R.isNil(messages)
+      ? undefined
+      : [...data, ...R.flatten(messages.pages.map((x) => x.data))],
     sendMessage,
+    fetchNextPage,
+    hasNextPage,
+    isFetching: isFetching || isFetchingNextPage,
   };
 };
 

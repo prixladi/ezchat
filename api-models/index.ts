@@ -11,6 +11,15 @@ export type CheckChannelParams = {
   code: string;
 };
 
+export type GetChannelMesaggesParams = {
+  code: string;
+};
+
+export type GetChannelMesaggesQuery = {
+  page: number;
+  pageSize: number;
+};
+
 export type ChannelDto = {
   id: string;
   code: string;
@@ -22,6 +31,8 @@ export type ChannelDto = {
 export type MessagesDto = {
   data: MessageRecievedData[];
   total: number;
+  page: number;
+  pageSize: number;
 };
 
 // socket
