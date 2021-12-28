@@ -19,6 +19,11 @@ export type ChannelDto = {
   updatedAt: Date;
 };
 
+export type MessagesDto = {
+  data: MessageRecievedData[];
+  total: number;
+};
+
 // socket
 
 export type CreateMessageData = {

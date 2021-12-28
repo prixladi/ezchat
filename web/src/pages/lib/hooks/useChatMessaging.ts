@@ -1,17 +1,35 @@
 import { ChannelDto, MessageRecievedData } from '@api-models';
+import api from '@lib/api';
 import { FormUtils } from '@lib/components/oneInputForm';
 import useSocket from '@lib/hooks/useSocket';
 import * as R from 'ramda';
 import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
-const useChatMessaging = (channel: ChannelDto) => {
+type Return = {
+  messages?: MessageRecievedData[];
+  sendMessage: (value: string, { clearInput, setError }: FormUtils) => Promise<void>;
+};
+
+const useChatMessaging = (channel: ChannelDto): Return => {
   const { socket, connected } = useSocket();
-  const [data, setData] = useState([]);
+  const { data: messages } = useQuery(
+    api.getChannelMessages.cacheKey(channel.code),
+    () => api.getChannelMessages(channel.code),
+    {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      staleTime: Infinity, // 24hrs
+      keepPreviousData:
+    },
+  );
+  const [data, setData] = useState([] as MessageRecievedData[]);
 
   useEffect(() => {
     const messageRecieved = (x: MessageRecievedData) => {
       if (x.channelCode === channel.code) {
-        setData((p) => [x, ...p]);
+        setData((p) => [...p, x]);
       }
     };
 
@@ -41,7 +59,10 @@ const useChatMessaging = (channel: ChannelDto) => {
     clearInput();
   };
 
-  return { messages: data, sendMessage };
+  return {
+    messages: R.isNil(messages) ? undefined : [...messages.data, ...data],
+    sendMessage,
+  };
 };
 
 export default useChatMessaging;

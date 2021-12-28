@@ -4,7 +4,7 @@ import * as R from 'ramda';
 import clsx from 'clsx';
 
 type Props = {
-  data: MessageRecievedData[];
+  data?: MessageRecievedData[];
   currentUser: CurrentUserDto;
 };
 
@@ -38,12 +38,16 @@ const getAvatarColor = (id: string) => {
 };
 
 const Messages: React.FC<Props> = ({ data, currentUser }) => {
-  const grouped = R.groupWith(
+  if (R.isNil(data)) {
+    return null;
+  }
+
+  const grouped = R.reverse(R.groupWith(
     (a, b) =>
       a.user.id === b.user.id &&
       Math.abs(new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) < 1000 * 60 * 20,
     data,
-  );
+  ));
 
   return (
     <div className="overflow-auto rounded-xl h-full flex flex-col-reverse gap-6 mt-4 px-2">
@@ -81,7 +85,7 @@ const Messages: React.FC<Props> = ({ data, currentUser }) => {
                   (a) => (
                     <span key={a.id}>{encode(a.content)}</span>
                   ),
-                  messageGroup.reverse(),
+                  messageGroup,
                 )}
               </span>
             </span>
