@@ -1,28 +1,22 @@
 import * as R from 'ramda';
+import emojiTable from './emojiTable';
+import tokenize from './tokenize';
 
 const encode = (str?: string): React.ReactNode | null => {
   if (R.isNil(str)) {
     return null;
   }
 
-  return str
-    .replaceAll(':D', '😄')
-    .replaceAll(':-D', '😄')
-    .replaceAll(':)', '🙂')
-    .replaceAll(':-)', '🙂')
-    .replaceAll(':]', '🙂')
-    .replaceAll(':-]', '🙂')
-    .replaceAll(':(', '☹️')
-    .replaceAll(':-(', '☹️')
-    .replaceAll(':[', '☹️')
-    .replaceAll(':-[', '☹️')
-    .replaceAll(':/', '😕')
-    .replaceAll(':-/', '😕')
-    .replaceAll(':3', '😺')
-    .replaceAll(':-3', '😺')
-    .replaceAll('._.', '😔')
-    .replaceAll('</3', '💔')
-    .replaceAll('<3', '❤️');
+  const tokens = tokenize(str);
+
+  return R.reduce(
+    (acc, curr) => {
+      const str = emojiTable[curr.subString];
+      return `${acc} ${str || curr.subString}`;
+    },
+    '',
+    tokens,
+  );
 };
 
 const decode = (_: string): string | null => {
