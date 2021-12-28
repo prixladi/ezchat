@@ -33,6 +33,6 @@ export type MessageRecievedData = {
   createdAt: Date;
   user: {
     id: string;
-    name: string;
+    username: string;
   };
 };

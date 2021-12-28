@@ -1,13 +1,32 @@
 import { ChannelDto, MessageRecievedData } from '@api-models';
 import { encode } from '@lib/chatTextTransform';
-import OneInputForm, { FormUtils } from '@lib/components/oneInputForm';
+import OneInputForm from '@lib/components/oneInputForm';
 import ThemeSwitch from '@lib/components/themeSwitch';
-import useSocket from '@lib/hooks/useSocket';
 import * as R from 'ramda';
-import { useState, useEffect } from 'react';
+import clsx from 'clsx';
+import useChatMessaging from '../hooks/useChatMessaging';
 
 type Props = {
   channel: ChannelDto;
+};
+
+const getAvatarColor = (id: string) => {
+  const hash = R.reduce((acc, cur) => acc + cur.charCodeAt(0), 0, id.split(''));
+
+  const colors = [
+    'bg-white',
+    'bg-gray-200',
+    'bg-gray-300',
+    'bg-gray-400',
+    'bg-zinc-200',
+    'bg-zinc-300',
+    'bg-zinc-400',
+    'bg-red-100',
+    'bg-red-200',
+    'bg-red-300',
+    'bg-red-400',
+  ];
+  return colors[hash % colors.length];
 };
 
 const mapChatMessages = (data: MessageRecievedData[]): JSX.Element[] => {
@@ -25,10 +44,14 @@ const mapChatMessages = (data: MessageRecievedData[]): JSX.Element[] => {
         className="font-bold leading-loose break-all text-md hover:bg-opacity-30 flex gap-2"
       >
         <div
-          className="rounded-full border-2 dark:text-black border-gray-900 bg-zinc-300 
-          px-1 w-10 h-8 text-center p-1 text-lg font-extrabold pb-8 col-span-1 min-w-40"
+          className={clsx(
+            'rounded-full border-2 dark:text-black border-gray-900 px-1 w-10 h-8 text-center p-1 text-lg font-extrabold pb-8 col-span-1 min-w-40',
+            getAvatarColor(x[0].user.id),
+          )}
         >
-          A
+          {R.isNil(x[0].user.username) || x[0].user.username.length === 0
+            ? 'A'
+            : x[0].user.username[0].toUpperCase()}
         </div>
         <span className="chat-bubble">
           <span className="flex flex-col">
@@ -47,34 +70,8 @@ const mapChatMessages = (data: MessageRecievedData[]): JSX.Element[] => {
 };
 
 const Chat: React.FC<Props> = ({ channel }) => {
-  const { socket, connected } = useSocket();
-  const [data, setData] = useState([]);
+  const { messages, sendMessage } = useChatMessaging(channel);
 
-  useEffect(() => {
-    if (!R.isNil(socket) && connected) {
-      socket.emit('join', { channelCode: channel.code });
-
-      socket.on('messageRecieved', (x) => {
-        if (x.channelCode === channel.code) {
-          setData((p) => [x, ...p]);
-        }
-      });
-    }
-  }, [socket, connected, channel.code]);
-
-  const onSubmit = async (value: string, { clearInput, setError }: FormUtils): Promise<void> => {
-    if (R.isNil(value) || value === '') {
-      return;
-    }
-
-    if (!socket.connected) {
-      setError('Unable to send message to the server because socket is not connected.');
-      return;
-    }
-
-    socket.emit('sendMessage', { channelCode: channel.code, content: value });
-    clearInput();
-  };
   return (
     <div className="h-screen flex flex-col content-between max-w-2xl m-auto justify-between px-5 pt-2 md:py-5 ">
       <div className="items-center flex flex-col gap-2 md:gap-4">
@@ -89,7 +86,7 @@ const Chat: React.FC<Props> = ({ channel }) => {
         </div>
       </div>
       <div className="overflow-auto rounded-xl h-full flex flex-col-reverse gap-2 mt-4">
-        {mapChatMessages(data)}
+        {mapChatMessages(messages)}
       </div>
       <div className="mt-auto">
         <OneInputForm
@@ -98,7 +95,7 @@ const Chat: React.FC<Props> = ({ channel }) => {
           placeholder="Type a message"
           rightButtonContent="Send!"
           isLoading={false}
-          handleSubmit={onSubmit}
+          handleSubmit={sendMessage}
         />
       </div>
     </div>

@@ -13,5 +13,5 @@ export default async (req: Request<{}, {}, SetUsernameDto>, res: Response) => {
   );
 
   req.session.username = req.body.username;
-  res.sendStatus(StatusCodes.NOT_FOUND);
+  res.sendStatus(StatusCodes.OK);
 };

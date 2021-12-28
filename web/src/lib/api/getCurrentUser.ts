@@ -7,5 +7,5 @@ const getCurrentUser = async (): Promise<CurrentUserDto> => {
   return response.data;
 };
 
-getCurrentUser.cacheKey = () => ['currentUser'];
+getCurrentUser.cacheKey = ['currentUser'];
 export default getCurrentUser;
