@@ -14,5 +14,7 @@ const createApiError = (message: string, property?: string): ApiError => ({
   },
 });
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export type { ApiError };
-export { createApiError };
+export { createApiError, delay };

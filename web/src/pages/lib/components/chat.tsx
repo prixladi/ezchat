@@ -11,7 +11,7 @@ type Props = {
 };
 
 const Chat: React.FC<Props> = ({ channel, currentUser }) => {
-  const { messages, sendMessage } = useChatMessaging(channel);
+  const messaging = useChatMessaging(channel);
 
   return (
     <div className="h-screen flex flex-col content-between max-w-3xl m-auto justify-between px-5 pt-2 md:py-5 ">
@@ -26,7 +26,7 @@ const Chat: React.FC<Props> = ({ channel, currentUser }) => {
           </div>
         </div>
       </div>
-      <Messages data={messages} currentUser={currentUser} />
+      <Messages messaging={messaging} currentUser={currentUser} />
       <div className="mt-auto">
         <OneInputForm
           type="text"
@@ -34,7 +34,7 @@ const Chat: React.FC<Props> = ({ channel, currentUser }) => {
           placeholder="Type a message"
           rightButtonContent="Send!"
           isLoading={false}
-          handleSubmit={sendMessage}
+          handleSubmit={messaging.sendMessage}
         />
       </div>
     </div>

@@ -6,7 +6,7 @@ import * as R from 'ramda';
 import { useEffect, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 
-type Return = {
+export type ChatMessaging = {
   messages?: MessageRecievedData[];
   sendMessage: (value: string, { clearInput, setError }: FormUtils) => Promise<void>;
   fetchNextPage: () => Promise<any>;
@@ -14,7 +14,7 @@ type Return = {
   isFetching: boolean;
 };
 
-const useChatMessaging = (channel: ChannelDto): Return => {
+const useChatMessaging = (channel: ChannelDto): ChatMessaging => {
   const { socket, connected } = useSocket();
   const {
     data: messages,
@@ -31,7 +31,9 @@ const useChatMessaging = (channel: ChannelDto): Return => {
       refetchOnReconnect: false,
       staleTime: Infinity, // 24hrs
       getNextPageParam: (lastPage, _) =>
-        lastPage.total >= lastPage.pageSize * lastPage.page + lastPage.data.length,
+        lastPage.total > lastPage.pageSize * lastPage.page + lastPage.data.length
+          ? R.inc(lastPage.page)
+          : undefined,
     },
   );
   const [data, setData] = useState([] as MessageRecievedData[]);

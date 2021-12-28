@@ -1,5 +1,6 @@
 import api from '@lib/api';
 import OneInputForm, { FormUtils } from '@lib/components/oneInputForm';
+import Spinner from '@lib/components/spinner';
 import ThemeSwitch from '@lib/components/themeSwitch';
 import { maxUserNameLength, minUserNameLength, validUsernameRegex } from '@lib/constants';
 import type { NextPage } from 'next';
@@ -40,7 +41,7 @@ const Channel: NextPage = () => {
   };
 
   if (R.isNil(channel) || R.isNil(user)) {
-    return <div>{JSON.stringify(query)}</div>;
+    return <Spinner />;
   }
 
   if (R.isNil(user.username)) {

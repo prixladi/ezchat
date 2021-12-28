@@ -3,9 +3,17 @@
 @layer base {
   .chat-bubble,
   .chat-bubble-cr {
-    @apply col-span-12 dark:bg-slate-700 bg-slate-300 border-opacity-80 p-1 rounded-xl relative border-2 border-black dark:border-slate-700;
+    @apply col-span-12  border-opacity-80 p-1 rounded-xl relative border-2 border-black dark:border-slate-700;
     @apply max-w-md;
   }
+
+  .chat-bubble {
+    @apply dark:bg-slate-700 bg-slate-300;
+  }
+  .chat-bubble-cr {
+    @apply dark:bg-slate-700 bg-slate-300;
+  }
+
   .chat-bubble::before {
     content: '';
     position: absolute;
