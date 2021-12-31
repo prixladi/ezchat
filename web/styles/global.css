@@ -47,6 +47,26 @@
     @apply opacity-50 font-bold;
   }
 
+  .tooltip {
+    @apply bg-slate-800 dark:bg-slate-200 dark:text-black !important;
+  }
+
+  .__react_component_tooltip.place-left::after {
+    @apply border-l-slate-800 dark:border-l-slate-200 !important;
+  }
+
+  .__react_component_tooltip.place-right::after {
+    @apply border-r-slate-800  dark:border-r-slate-200 !important;
+  }
+
+  .__react_component_tooltip.place-top::after {
+    @apply border-t-slate-800 dark:border-t-slate-200 !important;
+  }
+
+  .__react_component_tooltip.place-bottom::after {
+    @apply border-b-slate-800 dark:border-b-slate-200 !important;
+  }
+
   ::-webkit-scrollbar {
     @apply w-1;
   }

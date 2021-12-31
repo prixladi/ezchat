@@ -29,4 +29,14 @@ const getRandomChannelCode = () => {
   return result;
 };
 
-export { validateUsername, validateChannelCode, getRandomChannelCode };
+const tooltipCommonProps = {
+  event: 'click mouseover mouseenter',
+  eventOff: 'mouseleave',
+  globalEventOff: 'click',
+  isCapture: true,
+  scrollHide: true,
+  insecure: false,
+  className: 'tooltip',
+};
+
+export { validateUsername, validateChannelCode, getRandomChannelCode, tooltipCommonProps };

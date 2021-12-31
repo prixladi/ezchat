@@ -14,7 +14,7 @@ const Chat: React.FC<Props> = ({ channel, currentUser }) => {
   const messaging = useChatMessaging(channel);
 
   return (
-    <div className="h-screen flex flex-col content-between max-w-3xl m-auto justify-between px-5 pt-2 md:py-5 ">
+    <div className="h-screen break-words flex flex-col content-between max-w-3xl m-auto justify-between px-5 pt-2 md:py-5 ">
       <div className="items-center flex flex-col gap-2 md:gap-4">
         <ThemeSwitch />
         <div className="centered-content-block">

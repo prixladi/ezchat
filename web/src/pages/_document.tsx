@@ -1,6 +1,10 @@
 import React from 'react';
 import NextDocument, { Head, Html, Main, NextScript } from 'next/document';
 
+{/* <div className="hidden __react_component_tooltip place-left place-right place-top place-bottom">
+  <div className="__react_component_tooltip place-left place-right place-top place-bottom"></div>
+</div>; */}
+
 class Document extends NextDocument {
   render(): JSX.Element {
     return (

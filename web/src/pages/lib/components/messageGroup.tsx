@@ -1,8 +1,11 @@
 import * as R from 'ramda';
 import clsx from 'clsx';
 import { CurrentUserDto, MessageRecievedData } from '@api-models';
-import ChatUserPopover from './chatUserPopover';
+import Tooltip from 'react-tooltip';
+import ChatUser from './chatUser';
 import TextMessage from './textMessage';
+import { tooltipCommonProps } from '../utils';
+import { Fragment } from 'react';
 
 type Props = {
   messageGroup: MessageRecievedData[];
@@ -19,7 +22,7 @@ const MessageGroup: React.FC<Props> = ({ messageGroup, currentUser }) => {
         'ml-auto': isCurrentUserMessage,
       })}
     >
-      <ChatUserPopover user={user} isCurrentUserMessage={isCurrentUserMessage} />
+      <ChatUser user={user} isCurrentUserMessage={isCurrentUserMessage} />
       <span
         className={clsx({
           'chat-bubble-cr order-1': isCurrentUserMessage,
@@ -29,7 +32,20 @@ const MessageGroup: React.FC<Props> = ({ messageGroup, currentUser }) => {
         <span className="flex flex-col-reverse">
           {R.map(
             (a) => (
-              <TextMessage key={a.id} message={a} />
+              <Fragment key={a.id}>
+                <Tooltip
+                  {...tooltipCommonProps}
+                  place={isCurrentUserMessage ? 'left' : 'right'}
+                  clickable
+                  id={a.id}
+                  effect="solid"
+                >
+                  {new Date(a.createdAt).toLocaleString()}
+                </Tooltip>
+                <span className="cursor-pointer" data-tip data-for={a.id}>
+                  <TextMessage message={a} />
+                </span>
+              </Fragment>
             ),
             messageGroup,
           )}
