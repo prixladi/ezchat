@@ -1,44 +1,15 @@
-import api from '@lib/api';
-import OneInputForm, { FormUtils } from '@lib/components/oneInputForm';
+import OneInputForm from '@lib/components/oneInputForm';
 import Spinner from '@lib/components/spinner';
 import ThemeSwitch from '@lib/components/themeSwitch';
-import { maxUserNameLength, minUserNameLength, validUsernameRegex } from '@lib/constants';
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import * as R from 'ramda';
-import { useMutation, useQuery } from 'react-query';
 import Chat from './lib/components/chat';
+import useChannel from './lib/hooks/useChannel';
+import useUser from './lib/hooks/useUser';
 
 const Channel: NextPage = () => {
-  const { query } = useRouter();
-  const code = query.code as string;
-
-  const { data: channel } = useQuery(api.checkChannel.cacheKey(code), () => api.checkChannel(code));
-  const { data: user, refetch } = useQuery(api.getCurrentUser.cacheKey, () => api.getCurrentUser());
-  const { mutateAsync: setUsername } = useMutation((username: string) => api.setUsername(username));
-
-  const onSubmit = async (username: string, { setError }: FormUtils) => {
-    if (
-      R.isNil(username) ||
-      username.length < minUserNameLength ||
-      username.length > maxUserNameLength ||
-      !validUsernameRegex.test(username)
-    ) {
-      setError(
-        `Channel code must be a alphanumberic string between ${minUserNameLength} and ${maxUserNameLength} charactares long`,
-      );
-
-      return;
-    }
-
-    try {
-      await setUsername(username);
-      await refetch();
-    } catch (err) {
-      setError('Unable to set username because of error on server, try again later.');
-      console.error(err);
-    }
-  };
+  const channel = useChannel();
+  const { user, trySetUsername } = useUser();
 
   if (R.isNil(channel) || R.isNil(user)) {
     return <Spinner />;
@@ -60,7 +31,7 @@ const Channel: NextPage = () => {
           placeholder="Username"
           rightButtonContent="GO!"
           isLoading={false}
-          handleSubmit={onSubmit}
+          handleSubmit={trySetUsername}
         />
       </div>
     );

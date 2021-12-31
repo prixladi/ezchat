@@ -1,21 +1,25 @@
+import { MessageRecievedData } from '@api-models';
+import tokenize, { Token, emojiTable } from '@lib/tokenization';
 import * as R from 'ramda';
-import emojiTable from './emojiTable';
-import tokenize, { Token } from './tokenize';
+import { useMemo } from 'react';
 
-const encode = (str: string | undefined, id: string): React.ReactNode | null => {
-  if (R.isNil(str)) {
+type Props = {
+  message: MessageRecievedData;
+};
+
+const TextMessage: React.FC<Props> = ({ message: { id, content } }) => {
+  const tokens = useMemo(() => tokenize(content), [content]);
+
+  if (R.isNil(content)) {
     return null;
   }
 
-  const tokens = tokenize(str);
-
-  const groups = R.groupWith(
+  const grouping = R.groupWith<Token>(
     (x, y) =>
       (x.type === 'emoji' || x.type === 'string') && (y.type === 'emoji' || y.type === 'string'),
-    tokens,
   );
 
-  const elements = R.addIndex<Token[], JSX.Element>(R.map)((x, i) => {
+  const indexedMap = R.addIndex<Token[], JSX.Element>(R.map)((x, i) => {
     const first = x[0];
     const key = `${id}-token-${i}`;
 
@@ -27,7 +31,7 @@ const encode = (str: string | undefined, id: string): React.ReactNode | null => 
           className="text-teal-500 font-extrabold underline hover:no-underline"
           href={first.subString}
           rel="noreferrer"
-        >{` ${first.subString}`}</a>
+        >{`${first.subString} `}</a>
       );
     }
 
@@ -43,13 +47,9 @@ const encode = (str: string | undefined, id: string): React.ReactNode | null => 
         )}
       </span>
     );
-  }, groups);
+  });
 
-  return elements;
+  return <span key={`text-${id}`}>{R.pipe(grouping, indexedMap)(tokens)}</span>;
 };
 
-const decode = (): string | null => {
-  throw new Error('Chat text decoding is not supported');
-};
-
-export { encode, decode };
+export default TextMessage;

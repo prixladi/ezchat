@@ -1,57 +1,11 @@
-import { ChannelDto, CurrentUserDto, MessageRecievedData } from '@api-models';
-import { encode } from '@lib/chatTextTransform';
+import { ChannelDto, CurrentUserDto } from '@api-models';
 import * as R from 'ramda';
-import clsx from 'clsx';
 import InfiniteScroll from '@lib/components/infiniteScroll';
 import { ChatMessaging } from '../hooks/useChatMessaging';
-import ChatUserPopover from './chatUserPopover';
-
-type BeginningMessageProps = {
-  channel: ChannelDto;
-};
-
-const BeginningMessage: React.FC<BeginningMessageProps> = ({ channel }) => (
-  <div className="text-center text-lg mt-2 font-extrabold opacity-50 mb-auto text-slate-800 dark:text-slate-300">
-    {new Date(channel.createdAt).toLocaleString()} is beginning of conversation here
-  </div>
-);
+import MessageGroup from './messageGroup';
+import BeginningMessage from './beginningMessage';
 
 const Loading = () => <div className="text-center font-extrabold text-xl">Loading...</div>;
-
-type MessageBlockProps = {
-  messageGroup: MessageRecievedData[];
-  currentUser: CurrentUserDto;
-};
-
-const MessageBlock: React.FC<MessageBlockProps> = ({ messageGroup, currentUser }) => {
-  const { user } = messageGroup[0];
-  const isCurrentUserMessage = currentUser.id === user.id;
-
-  return (
-    <div
-      className={clsx('font-bold leading-loose break-all text-md flex gap-2', {
-        'ml-auto': isCurrentUserMessage,
-      })}
-    >
-      <ChatUserPopover user={user} isCurrentUserMessage={isCurrentUserMessage} />
-      <span
-        className={clsx({
-          'chat-bubble-cr order-1': isCurrentUserMessage,
-          'chat-bubble order-2': !isCurrentUserMessage,
-        })}
-      >
-        <span className="flex flex-col-reverse">
-          {R.map(
-            (a) => (
-              <span key={`text-${a.id}`}>{encode(a.content, a.id)}</span>
-            ),
-            messageGroup,
-          )}
-        </span>
-      </span>
-    </div>
-  );
-};
 
 type Props = {
   messaging: ChatMessaging;
@@ -60,7 +14,8 @@ type Props = {
 };
 
 const Messages: React.FC<Props> = ({ messaging, currentUser, channel }) => {
-  if (R.isNil(messaging.messages)) {
+  const { messages, hasNextPage, fetchNextPage, isFetching } = messaging;
+  if (R.isNil(messages)) {
     return (
       <div className="pt-4">
         <Loading />
@@ -72,26 +27,26 @@ const Messages: React.FC<Props> = ({ messaging, currentUser, channel }) => {
     (a, b) =>
       a.user.id === b.user.id &&
       Math.abs(new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) < 1000 * 60 * 20,
-    messaging.messages,
+    messages,
   );
 
   return (
     <InfiniteScroll
-      dataLength={messaging.messages.length}
+      dataLength={messages.length}
       inverse
-      next={async () => messaging.fetchNextPage()}
-      hasMore={messaging.hasNextPage}
+      next={async () => fetchNextPage()}
+      hasMore={hasNextPage}
       loader={<Loading />}
       height="100%"
       className="overflow-auto rounded-xl h-full flex flex-col-reverse gap-6 mt-4 px-2"
     >
-      {messaging.messages.length === 0 && messaging.isFetching ? (
+      {messages.length === 0 && isFetching ? (
         <Loading />
       ) : (
         <>
           {R.map(
             (messageGroup) => (
-              <MessageBlock
+              <MessageGroup
                 key={`gr-${messageGroup[0].id}`}
                 messageGroup={messageGroup}
                 currentUser={currentUser}
@@ -99,7 +54,7 @@ const Messages: React.FC<Props> = ({ messaging, currentUser, channel }) => {
             ),
             grouped,
           )}
-          {!messaging.hasNextPage && <BeginningMessage channel={channel} />}
+          {!hasNextPage && <BeginningMessage channel={channel} />}
         </>
       )}
     </InfiniteScroll>

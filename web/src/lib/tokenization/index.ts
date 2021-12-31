@@ -54,4 +54,5 @@ const tokenize = (str: string): Tokenized => {
 };
 
 export type { Token };
+export { emojiTable };
 export default tokenize;
