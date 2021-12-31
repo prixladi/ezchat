@@ -2,10 +2,10 @@ import * as R from 'ramda';
 import clsx from 'clsx';
 import { CurrentUserDto, MessageRecievedData } from '@api-models';
 import Tooltip from 'react-tooltip';
+import { Fragment } from 'react';
 import ChatUser from './chatUser';
 import TextMessage from './textMessage';
 import { tooltipCommonProps } from '../utils';
-import { Fragment } from 'react';
 
 type Props = {
   messageGroup: MessageRecievedData[];
@@ -18,7 +18,7 @@ const MessageGroup: React.FC<Props> = ({ messageGroup, currentUser }) => {
 
   return (
     <div
-      className={clsx('font-bold leading-loose break-all text-md flex gap-2', {
+      className={clsx('font-bold leading-loose break-words text-md flex gap-2', {
         'ml-auto': isCurrentUserMessage,
       })}
     >
