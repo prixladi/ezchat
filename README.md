@@ -30,3 +30,4 @@ Or you can start each part of the application separately. Instruction can be fin
 5) Change username
 6) Change channel name (?)
 7) Send message rate limiter
+8) Local time is shifted -1 hour
