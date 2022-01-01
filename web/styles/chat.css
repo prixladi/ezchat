@@ -4,7 +4,7 @@
   .chat-bubble,
   .chat-bubble-cr {
     @apply col-span-12  border-opacity-80 p-1 rounded-xl relative border-2 border-black dark:border-slate-700;
-    @apply max-w-md;
+    @apply max-w-[200px] xs:max-w-[300px] sm:max-w-sm md:max-w-md lg:max-w-lg;
   }
 
   .chat-bubble {

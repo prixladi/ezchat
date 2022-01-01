@@ -4,4 +4,7 @@ module.exports = {
   experimental: {
     outputStandalone: true,
   },
+  env: {
+    NEXT_PUBLIC_shiiit: 'my-value',
+  },
 };

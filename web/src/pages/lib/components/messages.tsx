@@ -38,7 +38,7 @@ const Messages: React.FC<Props> = ({ messaging, currentUser, channel }) => {
       hasMore={hasNextPage}
       loader={<Loading />}
       height="100%"
-      className="overflow-auto rounded-xl h-full flex flex-col-reverse gap-6 mt-4 px-2"
+      className="overflow-y-auto rounded-xl h-full flex flex-col-reverse gap-6 mt-4 px-2"
     >
       {messages.length === 0 && isFetching ? (
         <Loading />

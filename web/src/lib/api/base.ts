@@ -1,7 +1,6 @@
+import config from '@lib/config';
 import axios from 'axios';
 
-const url = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-
-const client = axios.create({ baseURL: url, withCredentials: true });
+const client = axios.create({ baseURL: config.apiUrl, withCredentials: true });
 
 export default client;

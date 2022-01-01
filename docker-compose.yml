@@ -10,13 +10,15 @@ services:
       DB_HOST: postgres
       REDIS_HOST: redis
     ports:
-      - 8000:8000
+      - 9000:8000
     build:
       context: .
       dockerfile: ./api/Dockerfile
 
   web:
     image: ezchat/web
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:9000
     ports:
       - 80:3000
     build:

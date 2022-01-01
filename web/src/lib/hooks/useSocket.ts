@@ -1,9 +1,8 @@
+import config from '@lib/config';
 import { useEffect, useState } from 'react';
 import io, { Socket } from 'socket.io-client';
 
-const url = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000')
-  .replace('http://', 'ws://')
-  .replace('https://', 'wss://');
+const url = config.apiUrl.replace('http://', 'ws://').replace('https://', 'wss://');
 
 const useSocket = () => {
   const [socket, setSocket] = useState(null as Socket | null);

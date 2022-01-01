@@ -17,13 +17,18 @@ COPY --from=dependencies /app/web/node_modules ./node_modules
 RUN yarn lint
 RUN yarn build
 
+RUN apk update && apk add dos2unix
+RUN dos2unix ./docker/run.sh
+
 FROM node:16-alpine3.11 as release
 
 WORKDIR /app
-RUN yarn install --only=production 
 
-COPY --from=builder  /app/web/.next/standalone ./
-COPY --from=builder  /app/web/.next/static ./.next/static
-COPY --from=builder  /app/web/public ./public
+COPY --from=builder /app/web/.next/standalone ./
+COPY --from=builder /app/web/.next/static ./.next/static
+COPY --from=builder /app/web/public ./public
+COPY --from=builder /app/web/docker/config.js ./configs/config.js
+COPY --from=builder /app/web/docker/run.sh ./run.sh
 
+ENTRYPOINT ["./run.sh"]
 CMD ["node", "server.js"]
