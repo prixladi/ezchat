@@ -2,7 +2,7 @@
 
 Dead simple chat application. No login, just pick channel choose username and chat. Supports dark/light theme.
 
-[Run application](#run-application)  
+[Run Application](#run-application)  
 [Images](#images)  
 [TODO](#todo)  
 
