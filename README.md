@@ -2,11 +2,11 @@
 
 Dead simple chat application. No login, just pick channel choose username and chat. Supports dark/light theme.
 
-[Headers](#run)  
+[Run application](#run-application)  
 [Images](#images)  
 [TODO](#todo)  
 
-## Run 
+## Run Application 
 
 Run whole application using docker:
 
