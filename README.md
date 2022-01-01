@@ -29,3 +29,4 @@ Or you can start each part of the application separately. Instruction can be fin
 4) Channel moderation
 5) Change username
 6) Change channel name (?)
+7) Send message rate limiter
