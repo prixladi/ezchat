@@ -1,6 +1,6 @@
 # Ezchat
 
-Dead simple chat application. No login, just pick channel choose username and chat. Supports dark/light theme.
+Dead simple chat application. No login, just pick a channel, choose a username and start chatting. Supports dark/light theme switching.
 
 [Run Application](#run-application)  
 [Images](#images)  
